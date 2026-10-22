@@ -32,7 +32,7 @@ export const business = {
   mapsUrl: 'https://www.google.com/maps?cid=14268146910165658224',
   socials: {
     google: 'https://www.google.com/maps?cid=14268146910165658224',
-    facebook: 'https://www.facebook.com/supercab0800',
+    facebook: 'https://www.facebook.com/TaxiMonctonLongdistance/',
   },
   fleet: ['Sedans', 'SUVs', 'Vans'],
 } as const;
