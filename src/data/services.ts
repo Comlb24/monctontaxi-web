@@ -40,7 +40,7 @@ export const services: Service[] = [
     ],
     faqs: [
       { q: 'How do I book a taxi from Moncton airport?', a: 'Call or text (506) 797-0087 with your flight number and number of passengers. For early-morning or late-night flights we recommend booking ahead.' },
-      { q: 'Do you do trips to Halifax airport?', a: 'Yes. We drive from Moncton and the surrounding area to Halifax Stanfield International (YHZ). From downtown Moncton the fare is $380.75 one way; use our fare calculator for your exact address.' },
+      { q: 'Do you do trips to Halifax airport?', a: 'Yes. We drive from Moncton and the surrounding area to Halifax Stanfield International (YHZ). From downtown Moncton the fare is $380.75 one way, plus a $4 highway toll each way paid by the customer; use our fare calculator for your exact address.' },
       { q: 'What if my flight is delayed?', a: 'Share your flight number when booking and we track your arrival so your driver is there when you land.' },
     ],
     related: ['long-distance-taxi', 'corporate-account', 'chauffeur-service'],
@@ -70,7 +70,7 @@ export const services: Service[] = [
       },
     ],
     faqs: [
-      { q: 'How much is a taxi from Moncton to Halifax?', a: 'From downtown Moncton it is $429.62 one way to Halifax and $380.75 to Halifax Stanfield airport. Saint John is $262.03, Fredericton $301.19 and Charlottetown $272.31. Enter your exact addresses in our online fare calculator for your price.' },
+      { q: 'How much is a taxi from Moncton to Halifax?', a: 'From downtown Moncton it is $429.62 one way to Halifax and $380.75 to Halifax Stanfield airport. Saint John is $262.03, Fredericton $301.19 and Charlottetown $272.31. Tolls are extra: $4 each way to Halifax, and $20 once per trip for the Confederation Bridge. Enter your exact addresses in our online fare calculator for your price.' },
       { q: 'Can I book a long-distance taxi in advance?', a: 'Yes, and we recommend it. Book by phone, text, WhatsApp or email with your date, time and addresses.' },
       { q: 'Do you go to PEI?', a: 'Yes, we drive to Charlottetown and other destinations on Prince Edward Island.' },
     ],

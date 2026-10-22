@@ -3,13 +3,13 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Faq from '../components/Faq.astro';
-import { FARE_CALCULATOR_URL } from '../data/business';
 import { routes } from '../data/home';
-import { longDistanceRoutes, fareFor, money, RATES } from '../data/routes';
+import { longDistanceRoutes, fareFor, money, RATES, tollLabel } from '../data/routes';
 import { breadcrumbSchema, faqSchema } from '../data/schema';
 const crumbs = [{ name: 'Home', href: '/' }, { name: 'Out of Town Rates', href: '/out-of-town-rates' }];
 const faqs = [
   { q: 'How are out-of-town fares calculated?', a: `${money(RATES.base)} plus ${money(RATES.perKm)} per kilometre of driving distance, with a ${money(RATES.minimum)} minimum. A return trip is twice the one-way fare. The fare is per vehicle, not per person.` },
+  { q: 'Are tolls included in the fare?', a: 'No. Tolls are paid by the customer: $4 each way on the Halifax route ($8 return), and $20 for the Confederation Bridge to PEI, charged once per trip whether you travel one way or return.' },
   { q: 'What counts as out of town?', a: 'Our standard service area is Moncton, Dieppe and Riverview. Pickups or drop-offs outside that area are out-of-town trips.' },
   { q: 'Do out-of-town trips need to be prepaid?', a: 'Yes. Out-of-town pickups require full prepayment, as set out in our Transportation Terms & Conditions.' },
   { q: 'Is there a minimum fare?', a: 'A minimum booking charge of $25 applies to all rides.' },
@@ -26,23 +26,18 @@ const faqs = [
     <div class="container-x">
       <h2 class="text-2xl font-bold text-ink">Popular out-of-town destinations</h2>
       <div class="mt-6 overflow-x-auto rounded-3xl border border-line">
-        <table class="w-full min-w-[520px] text-left">
+        <table class="w-full min-w-[620px] text-left">
           <thead class="bg-canvas text-sm text-muted">
-            <tr><th class="p-4">From Moncton to</th><th class="p-4">Typical drive</th><th class="p-4">One way</th><th class="p-4">Return</th></tr>
+            <tr><th class="p-4">From Moncton to</th><th class="p-4">Typical drive</th><th class="p-4">One way</th><th class="p-4">Return</th><th class="p-4">Toll (extra)</th></tr>
           </thead>
           <tbody class="divide-y divide-line">
             {routes.map((r) => (
               <tr>
                 <td class="p-4"><a href={r.href} class="font-semibold text-ink underline decoration-brand decoration-2 underline-offset-4">{r.to}</a><br /><span class="text-sm text-muted">{r.note}</span></td>
                 <td class="p-4 text-muted">{r.time}</td>
-                {r.fare ? (
-                  <Fragment>
-                    <td class="p-4 font-semibold text-ink">{money(r.fare)}</td>
-                    <td class="p-4 text-muted">{money(r.fare * 2)}</td>
-                  </Fragment>
-                ) : (
-                  <td class="p-4" colspan="2"><a href={FARE_CALCULATOR_URL} class="font-semibold text-ink underline decoration-brand decoration-2 underline-offset-4">Get instant quote</a></td>
-                )}
+                <td class="p-4 font-semibold text-ink">{money(r.fare)}</td>
+                <td class="p-4 text-muted">{money(r.fare * 2)}</td>
+                <td class="p-4 text-muted">{r.toll ? tollLabel(r.toll) : 'None'}</td>
               </tr>
             ))}
           </tbody>
@@ -50,9 +45,9 @@ const faqs = [
       </div>
       <h2 class="mt-14 text-2xl font-bold text-ink">Airport transfers</h2>
       <div class="mt-6 overflow-x-auto rounded-3xl border border-line">
-        <table class="w-full min-w-[520px] text-left">
+        <table class="w-full min-w-[620px] text-left">
           <thead class="bg-canvas text-sm text-muted">
-            <tr><th class="p-4">From Moncton to</th><th class="p-4">Distance</th><th class="p-4">One way</th><th class="p-4">Return</th></tr>
+            <tr><th class="p-4">From Moncton to</th><th class="p-4">Distance</th><th class="p-4">One way</th><th class="p-4">Return</th><th class="p-4">Toll (extra)</th></tr>
           </thead>
           <tbody class="divide-y divide-line">
             {longDistanceRoutes.filter((r) => r.airport).map((r) => (
@@ -61,12 +56,13 @@ const faqs = [
                 <td class="p-4 text-muted">{Math.round(r.airport!.km)} km</td>
                 <td class="p-4 font-semibold text-ink">{money(fareFor(r.airport!.km))}</td>
                 <td class="p-4 text-muted">{money(fareFor(r.airport!.km) * 2)}</td>
+                <td class="p-4 text-muted">{r.toll ? tollLabel(r.toll) : 'None'}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <p class="mt-4 text-sm text-muted">Fares are from downtown Moncton (165 Main St) and come from our online fare calculator; your price depends on your exact addresses and may vary with tolls or route changes. Prices are per vehicle. Drive times are approximate and vary with traffic and weather. See our <a href="/transportation-terms-and-conditions" class="underline">Transportation Terms & Conditions</a> for prepayment, cancellation and wait-time policies.</p>
+      <p class="mt-4 text-sm text-muted">Fares are from downtown Moncton (165 Main St) and come from our online fare calculator; your price depends on your exact addresses. Prices are per vehicle. Tolls are extra and paid by the customer: $4 each way on the Halifax route, and $20 once per trip for the Confederation Bridge to PEI (one way or return). Drive times are approximate and vary with traffic and weather. See our <a href="/transportation-terms-and-conditions" class="underline">Transportation Terms & Conditions</a> for prepayment, cancellation and wait-time policies.</p>
     </div>
   </section>
   <Faq faqs={faqs} heading="Out-of-town rate questions" />

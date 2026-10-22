@@ -10,6 +10,18 @@ export const fareFor = (km: number) => Math.max(RATES.minimum, RATES.base + RATE
 export const money = (n: number) => `$${n.toFixed(2)}`;
 export const roundedMoney = (n: number) => `$${Math.round(n)}`;
 
+// Tolls are extra and paid by the customer. 'way' = charged each direction; 'trip' = charged once
+// per booking, whether one way or return.
+export type Toll = { amount: number; per: 'way' | 'trip'; name: string };
+export const tollFor = (toll: Toll, isReturn: boolean) => (toll.per === 'way' && isReturn ? toll.amount * 2 : toll.amount);
+export const tollLabel = (toll: Toll) => (toll.per === 'way' ? `${roundedMoney(toll.amount)} each way` : `${roundedMoney(toll.amount)} per trip`);
+
+// Other one-way trips priced from downtown Moncton with the calculator (they have area pages, not route pages).
+export const otherFares: { slug: string; city: string; km: number }[] = [
+  { slug: 'taxi-shediac', city: 'Shediac', km: 24.671 },
+  { slug: 'taxi-sussex', city: 'Sussex', km: 86.022 },
+];
+
 export type Route = {
   slug: string;
   city: string;
@@ -22,6 +34,7 @@ export type Route = {
   h1: string;
   lead: string;
   airport?: { name: string; code: string; km: number };
+  toll?: Toll;
   sections: { heading: string; body: string; bullets?: string[] }[];
   faqs: Faq[];
 };
@@ -38,10 +51,11 @@ export const longDistanceRoutes: Route[] = [
     h1: 'Moncton to Halifax Taxi',
     lead: 'Door-to-door rides from Moncton, Dieppe and Riverview to downtown Halifax, Dartmouth and Halifax Stanfield International Airport. See your exact fare online, then book in the same step.',
     airport: { name: 'Halifax Stanfield International Airport', code: 'YHZ', km: 228.939 },
+    toll: { amount: 4, per: 'way', name: 'highway toll' },
     sections: [
       {
         heading: 'The route',
-        body: 'We take the Trans-Canada east past Sackville and Amherst, then Highway 104 through Truro and Highway 102 into Halifax. It is about 258 km from downtown Moncton to downtown Halifax, and roughly two and a half hours of driving depending on weather and traffic.',
+        body: 'We take the Trans-Canada east past Sackville and Amherst, then Highway 104 through Truro and Highway 102 into Halifax. It is about 258 km from downtown Moncton to downtown Halifax, and roughly two and a half hours of driving depending on weather and traffic. There is a $4 highway toll in Nova Scotia, paid by the customer, each way.',
       },
       {
         heading: 'Halifax Stanfield airport (YHZ) transfers',
@@ -58,8 +72,9 @@ export const longDistanceRoutes: Route[] = [
       },
     ],
     faqs: [
-      { q: 'How much is a taxi from Moncton to Halifax?', a: 'Our fare calculator prices a one-way trip from downtown Moncton to downtown Halifax at $429.62 (about 258 km). A return trip is $859.24. Your exact price depends on your addresses — enter them in the fare calculator to see it instantly.' },
-      { q: 'How much is a taxi from Moncton to Halifax airport?', a: 'A one-way trip from downtown Moncton to Halifax Stanfield International Airport (YHZ) is $380.75 for about 229 km.' },
+      { q: 'How much is a taxi from Moncton to Halifax?', a: 'Our fare calculator prices a one-way trip from downtown Moncton to downtown Halifax at $429.62 (about 258 km). A return trip is $859.24. The $4 highway toll is extra and paid by the customer each way ($8 return). Your exact price depends on your addresses — enter them in the fare calculator to see it instantly.' },
+      { q: 'How much is a taxi from Moncton to Halifax airport?', a: 'A one-way trip from downtown Moncton to Halifax Stanfield International Airport (YHZ) is $380.75 for about 229 km, plus the $4 highway toll.' },
+      { q: 'Are tolls included?', a: 'No. There is a $4 highway toll on the way to Halifax, paid by the customer each way — $4 one way or $8 for a return trip.' },
       { q: 'How long is the taxi ride from Moncton to Halifax?', a: 'About two and a half hours to downtown Halifax, and a little less to Halifax Stanfield airport, depending on weather and traffic.' },
       { q: 'Is the price per person?', a: 'No. The fare is for the vehicle, so friends or family travelling together share one price. Tell us how many passengers and bags you have so we send the right vehicle.' },
       { q: 'Can you pick me up in Halifax and drive me to Moncton?', a: 'Yes. Enter your Halifax pickup and Moncton drop-off in the fare calculator, or call (506) 797-0087 to arrange it. Out-of-town pickups require prepayment.' },
@@ -143,6 +158,7 @@ export const longDistanceRoutes: Route[] = [
     city: 'Charlottetown',
     province: 'PEI',
     km: 163.218,
+    toll: { amount: 20, per: 'trip', name: 'Confederation Bridge toll' },
     time: 'about 1 hour 45 minutes',
     title: 'Moncton to Charlottetown Taxi – $272 One Way | Taxi Moncton',
     description: 'Taxi from Moncton to Charlottetown, PEI: $272.31 one way (163 km) over the Confederation Bridge. Door to door, 24/7. Book online or call (506) 797-0087.',
@@ -155,7 +171,7 @@ export const longDistanceRoutes: Route[] = [
       },
       {
         heading: 'About the bridge toll',
-        body: 'The Confederation Bridge toll is collected only when leaving the Island, so there is no toll on the way to Charlottetown. Online fares are estimates that do not include tolls; if you are booking a return trip, ask us about the toll when you book.',
+        body: 'The Confederation Bridge toll is $20, paid by the customer, and is charged once per trip — the same $20 whether you are going to the Island, coming back, or doing a return trip. It is not included in online fare estimates.',
       },
       {
         heading: 'Common PEI destinations',
@@ -168,8 +184,8 @@ export const longDistanceRoutes: Route[] = [
       },
     ],
     faqs: [
-      { q: 'How much is a taxi from Moncton to Charlottetown?', a: 'Our fare calculator prices a one-way trip from downtown Moncton to Charlottetown at $272.31 (about 163 km), and $544.62 return. Enter your exact addresses in the fare calculator for your price.' },
-      { q: 'Is the Confederation Bridge toll included?', a: 'Online fares are estimates and do not include tolls. The bridge toll is only charged when leaving PEI, so a one-way trip to Charlottetown has no toll. Ask us about it when booking a return trip.' },
+      { q: 'How much is a taxi from Moncton to Charlottetown?', a: 'Our fare calculator prices a one-way trip from downtown Moncton to Charlottetown at $272.31 (about 163 km), and $544.62 return, plus the $20 bridge toll once per trip. Enter your exact addresses in the fare calculator for your price.' },
+      { q: 'Is the Confederation Bridge toll included?', a: 'No. The bridge toll is $20, paid by the customer, and charged once per trip — one way or return, it is $20.' },
       { q: 'How long is the taxi ride from Moncton to Charlottetown?', a: 'About an hour and 45 minutes, including the bridge crossing, depending on weather and traffic.' },
       { q: 'Can you pick me up in Charlottetown and take me to Moncton airport?', a: 'Yes. Book ahead with your flight time and pickup address. Out-of-town pickups require prepayment.' },
     ],

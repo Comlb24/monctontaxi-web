@@ -105,7 +105,7 @@ export const areas: Area[] = [
       { q: 'How long is the taxi ride from Moncton to Shediac?', a: 'About 25 minutes via Route 15, depending on traffic and your exact addresses.' },
       { q: 'Can you pick us up at Moncton airport and drive us to our Shediac cottage?', a: 'Yes. Book ahead with your flight number and the cottage address. Tell us how many passengers and bags so we send the right vehicle.' },
       { q: 'Do you drive to Parlee Beach in summer?', a: 'Yes, every day in season. Call or text (506) 797-0087 for a drop-off and arrange your return pickup the same way.' },
-      { q: 'How much is a taxi from Moncton to Shediac?', a: 'Enter your pickup and drop-off in our online fare calculator for an instant price, or call us for a quote.' },
+      { q: 'How much is a taxi from Moncton to Shediac?', a: 'From downtown Moncton to Shediac it is $43.71 one way (about 25 km), or $87.41 return, with no tolls. Enter your exact addresses in our online fare calculator for your price.' },
     ],
   },
   {
@@ -136,7 +136,7 @@ export const areas: Area[] = [
       { q: 'How long is the taxi ride from Moncton to Sussex?', a: 'About one hour via Route 2 and Route 1, depending on weather and traffic.' },
       { q: 'Can the driver wait for me in Moncton and bring me back to Sussex?', a: 'Yes. Ask for a round trip with wait time when you book and tell us roughly how long your appointment will take.' },
       { q: 'Do you drive from Sussex to Saint John airport?', a: 'Yes. We drive Sussex passengers to both Saint John Airport (YSJ) and Moncton airport (YQM).' },
-      { q: 'How much is a taxi from Sussex to Moncton?', a: 'Use our online fare calculator for an instant quote based on your exact addresses, or call (506) 797-0087.' },
+      { q: 'How much is a taxi between Moncton and Sussex?', a: 'From downtown Moncton to Sussex it is $144.94 one way (about 86 km), or $289.87 return, with no tolls. Use our online fare calculator for your exact addresses, or call (506) 797-0087.' },
     ],
   },
 ];

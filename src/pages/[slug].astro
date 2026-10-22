@@ -8,7 +8,7 @@ import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
 import { services, getService, type Service } from '../data/services';
 import { areas, type Area } from '../data/areas';
-import { longDistanceRoutes, fareFor, money, RATES, type Route } from '../data/routes';
+import { longDistanceRoutes, fareFor, money, roundedMoney, RATES, tollLabel, type Route } from '../data/routes';
 import { business, BOOK_URL, BOOK_LABEL, SITE_URL } from '../data/business';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '../data/schema';
 
@@ -82,7 +82,7 @@ const fareRows = props.kind === 'route'
             <div class="mb-5 overflow-x-auto rounded-3xl border border-line">
               <table class="w-full min-w-[440px] text-left text-[15px]">
                 <thead class="bg-canvas text-[13px] text-muted">
-                  <tr><th class="p-4 font-medium">From downtown Moncton to</th><th class="p-4 font-medium">Distance</th><th class="p-4 font-medium">One way</th><th class="p-4 font-medium">Return</th></tr>
+                  <tr><th class="p-4 font-medium">From downtown Moncton to</th><th class="p-4 font-medium">Distance</th><th class="p-4 font-medium">One way</th><th class="p-4 font-medium">Return</th>{props.route.toll && <th class="p-4 font-medium">Toll (extra)</th>}</tr>
                 </thead>
                 <tbody class="divide-y divide-line">
                   {fareRows.map((row) => (
@@ -91,12 +91,16 @@ const fareRows = props.kind === 'route'
                       <td class="p-4 text-muted">{Math.round(row.km)} km</td>
                       <td class="p-4 font-semibold text-ink">{money(fareFor(row.km))}</td>
                       <td class="p-4 text-muted">{money(fareFor(row.km) * 2)}</td>
+                      {props.route.toll && <td class="p-4 text-muted">{tollLabel(props.route.toll)}</td>}
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <p>Prices come from our <a href={BOOK_URL} rel="noopener">online fare calculator</a>: {money(RATES.base)} plus {money(RATES.perKm)} per km of driving distance, with a {money(RATES.minimum)} minimum. The fare is per vehicle, not per person. Your exact price depends on your pickup and drop-off addresses; estimates can vary with tolls or route changes.</p>
+            <p>Prices come from our <a href={BOOK_URL} rel="noopener">online fare calculator</a>: {money(RATES.base)} plus {money(RATES.perKm)} per km of driving distance, with a {money(RATES.minimum)} minimum. The fare is per vehicle, not per person. Your exact price depends on your pickup and drop-off addresses.</p>
+            {props.route.toll
+              ? <p><strong>Tolls:</strong> the {props.route.toll.name} is {props.route.toll.per === 'way' ? `${roundedMoney(props.route.toll.amount)} each way (${roundedMoney(props.route.toll.amount * 2)} for a return trip)` : `${roundedMoney(props.route.toll.amount)}, charged once per trip whether you travel one way or return`}. It is paid by the customer and is not included in the fares above.</p>
+              : <p>There are no tolls on this route.</p>}
             <p><a href={BOOK_URL} rel="noopener">See your exact fare and book →</a></p>
           </Fragment>
         )}
