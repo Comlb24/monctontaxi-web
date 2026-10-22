@@ -1,26 +1,152 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
+import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
 import { business, mailto, tel } from '../data/business';
-import { breadcrumbSchema } from '../data/schema';
+import { breadcrumbSchema, faqSchema } from '../data/schema';
 const crumbs = [{ name: 'Home', href: '/' }, { name: 'Join Our Team', href: '/join-our-team' }];
+const CITY_DRIVER_URL = 'https://www.moncton.ca/en/my-services-licences-permits-licences-apply-a-taxi-licence/taxi-licence-application';
+const CITY_OWNER_URL = 'https://www.moncton.ca/en/my-services-licences-permits-licences-apply-taxi-licence/taxi-owner-licence-application';
+const comparison = [
+  { label: 'Who needs it', driver: 'Anyone who drives a taxi in Moncton', owner: 'Anyone who owns a vehicle used as a taxi in Moncton' },
+  { label: 'City of Moncton fee', driver: '$110', owner: '$110' },
+  { label: 'Criminal record check (with Vulnerable Sector check)', driver: 'Dated within 30 days', owner: 'Dated within 12 months' },
+  { label: "Driver's licence and abstract", driver: 'NB Class 1, 2 or 4, plus an abstract dated within 30 days', owner: 'Not required' },
+  { label: 'Language certificate', driver: 'Basic Plus (1+) in English or French', owner: 'Not required' },
+  { label: 'National Standards taxi driver certification', driver: 'Required (proof of registration for first-time applicants)', owner: 'Not required' },
+  { label: 'Vehicle', driver: 'Not required', owner: 'NB registration, less than 10 years old' },
+  { label: 'Insurance', driver: 'Not required', owner: 'At least $2 million, in the licence holder’s name' },
+  { label: 'HST number', driver: 'If self-employed (as defined by the CRA)', owner: 'If self-employed (as defined by the CRA)' },
+];
+const faqs = [
+  { q: 'Do I need a permit to drive a taxi in Moncton?', a: 'Yes. Every taxi driver in Moncton needs a Taxi Licence (often called a taxi permit) from the City of Moncton, issued under By-law L-622. The vehicle you drive must also be covered by a Taxi Owner Licence held by its owner.' },
+  { q: 'What is the difference between a taxi licence and a taxi owner licence?', a: 'The Taxi Licence is for the person driving: it checks your driving record, language skills, training and criminal record. The Taxi Owner Licence is for the person who owns the vehicle: it checks the vehicle registration, the vehicle’s age and the insurance. If you own and drive your own taxi, you need both.' },
+  { q: 'How much does a Moncton taxi licence cost?', a: 'The City of Moncton fee is $110 for a Taxi Licence and $110 for a Taxi Owner Licence. Other documents cost extra: about $55 for the RCMP criminal record check, about $20 + HST for a driver’s abstract and about $60 + HST for the language evaluation. Fees can change, so confirm with the City before applying.' },
+  { q: 'Do I need to speak both English and French?', a: 'No. You need a New Brunswick certificate of oral proficiency rated at least Basic Plus (1+) in English or in French. One language is enough.' },
+  { q: 'Can I apply before I have my language certificate?', a: 'Yes. According to the City of Moncton, new applicants have one year to obtain the language certificate.' },
+  { q: 'How old can a taxi vehicle be in Moncton?', a: 'To get a Taxi Owner Licence, the vehicle must be registered in New Brunswick and be less than 10 years old.' },
+  { q: 'Do I need my own car to drive for Taxi Moncton?', a: 'No. If you drive a vehicle owned by someone else, you only need the Taxi Licence (driver). Contact us to talk about the options.' },
+];
 ---
 <Base
-  title="Taxi Driver Jobs in Moncton – Join Our Team | Taxi Moncton"
-  description="Drive with Taxi Moncton. We are looking for professional, friendly drivers in Moncton, Dieppe and Riverview. Email info@monctontaxi.com to apply."
-  schema={[breadcrumbSchema(crumbs)]}
+  title="Taxi Driver Jobs & Taxi Licence Requirements in Moncton | Taxi Moncton"
+  description="Drive a taxi in Moncton. Learn the City of Moncton taxi driver licence and taxi owner licence requirements, fees and steps, then apply to join Taxi Moncton."
+  schema={[breadcrumbSchema(crumbs), faqSchema(faqs)]}
 >
-  <PageHero h1="Join Our Team" lead="Know Moncton well and enjoy helping people get where they need to go? We would like to hear from you." crumbs={crumbs} />
+  <PageHero h1="Drive a Taxi in Moncton: Join Our Team" lead="We are hiring professional, friendly drivers in Moncton, Dieppe and Riverview. Here is everything you need to know about the City of Moncton taxi driver licence and taxi owner licence, and how to apply." crumbs={crumbs} />
+
   <section class="py-14">
     <div class="container-x prose-x max-w-3xl">
-      <h2>Who we are looking for</h2>
+      <h2>Why drive with Taxi Moncton</h2>
+      <p>Taxi Moncton serves Greater Moncton around the clock, from local rides and airport runs to long-distance trips across the Maritimes. We are looking for drivers who take pride in safe, reliable service.</p>
+      <h3>Who we are looking for</h3>
       <ul>
         <li>Professional, courteous drivers who put safety first</li>
         <li>Good knowledge of Moncton, Dieppe and Riverview</li>
-        <li>Valid driver's licence and the ability to meet local taxi licensing requirements</li>
+        <li>A clean driving record and a valid New Brunswick driver's licence (Class 1, 2 or 4)</li>
+        <li>A City of Moncton Taxi Licence, or the willingness to get one (see the requirements below)</li>
+        <li>Clear communication in English or French</li>
       </ul>
-      <h2>How to apply</h2>
-      <p>Email <a href={mailto}>{business.email}</a> with your name, phone number and a short note about your driving experience, or call us at <a href={tel}>{business.phoneDisplay}</a>.</p>
+
+      <h2>Two City of Moncton taxi licences: driver vs owner</h2>
+      <p>Taxis in Moncton are regulated by the City under <strong>By-law L-622</strong> (Taxis, Limousines and Vehicles for Hire), in effect since January 1, 2023. The City issues two different licences, often called taxi permits:</p>
+      <ul>
+        <li><strong>Taxi Licence (driver):</strong> lets you drive a taxi. It focuses on you as a driver: your driving record, training, language skills and background check.</li>
+        <li><strong>Taxi Owner Licence:</strong> covers the vehicle. It is held by the person who owns the taxi and focuses on the vehicle's registration, age and insurance.</li>
+      </ul>
+      <p>If you drive a vehicle owned by someone else, you need only the driver licence. If you own and drive your own taxi, you need both.</p>
+    </div>
+
+    <div class="container-x mt-8 max-w-5xl">
+      <div class="overflow-x-auto rounded-3xl border border-line">
+        <table class="w-full min-w-[620px] text-left">
+          <caption class="sr-only">Comparison of the City of Moncton Taxi Licence and Taxi Owner Licence</caption>
+          <thead class="bg-canvas text-sm text-muted">
+            <tr><th class="p-4" scope="col">Requirement</th><th class="p-4" scope="col">Taxi Licence (driver)</th><th class="p-4" scope="col">Taxi Owner Licence</th></tr>
+          </thead>
+          <tbody class="divide-y divide-line">
+            {comparison.map((row) => (
+              <tr>
+                <th class="p-4 font-semibold text-ink" scope="row">{row.label}</th>
+                <td class={`p-4 ${row.driver === 'Not required' ? 'text-muted/70' : 'text-muted'}`}>{row.driver}</td>
+                <td class={`p-4 ${row.owner === 'Not required' ? 'text-muted/70' : 'text-muted'}`}>{row.owner}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="container-x prose-x mt-14 max-w-3xl">
+      <h2 id="driver-licence">Moncton taxi driver licence requirements</h2>
+      <p>The City of Moncton requires all of the following documents with your Taxi Licence application. All documents must be included.</p>
+      <ul>
+        <li><strong>Driver's licence:</strong> a valid New Brunswick Class 1, 2 or 4 licence.</li>
+        <li><strong>Driver's abstract:</strong> ordered through Service New Brunswick and dated within 30 days of your application (about $20 + HST).</li>
+        <li><strong>Language certificate:</strong> a Province of New Brunswick certificate of oral proficiency rated at least Basic Plus (1+) in English or French. Request the evaluation through the Government of New Brunswick (about $60 + HST). New applicants have one year to obtain it.</li>
+        <li><strong>National Standards Certification for Taxicab and Limousine Drivers:</strong> the certification, or proof of registration if you are a first-time applicant.</li>
+        <li><strong>Criminal record check:</strong> obtained in person from the RCMP at 520 Main Street, Moncton (about $55). It must be signed, include a Vulnerable Sector check, be dated within 30 days of your application, and be the original (copies are not accepted).</li>
+        <li><strong>HST registration number:</strong> required if you are a self-employed taxi operator as defined by the Canada Revenue Agency (free to apply). Otherwise, provide proof that you are not self-employed.</li>
+        <li><strong>City of Moncton fee:</strong> $110.</li>
+      </ul>
+      <p><a href={CITY_DRIVER_URL} target="_blank" rel="noopener">Apply for your taxi driver licence on the City of Moncton website →</a></p>
+
+      <h2 id="owner-licence">Moncton taxi owner licence requirements</h2>
+      <p>If you own the vehicle that will be used as a taxi, the City of Moncton requires these documents with your Taxi Owner Licence application:</p>
+      <ul>
+        <li><strong>Criminal record check:</strong> from the RCMP at 520 Main Street (about $55). It must be signed, include a Vulnerable Sector check, be dated within 12 months of your application, and be the original.</li>
+        <li><strong>New Brunswick vehicle registration certificate:</strong> the vehicle must be less than 10 years old.</li>
+        <li><strong>Proof of insurance:</strong> a policy in the licence holder's name with coverage of at least $2 million, applying to any claim regardless of the number of people involved or the type of damage.</li>
+        <li><strong>HST registration number:</strong> required if you are a self-employed taxi operator as defined by the Canada Revenue Agency.</li>
+        <li><strong>City of Moncton fee:</strong> $110.</li>
+      </ul>
+      <p><a href={CITY_OWNER_URL} target="_blank" rel="noopener">Apply for your taxi owner licence on the City of Moncton website →</a></p>
+
+      <h2>How to get your Moncton taxi licence, step by step</h2>
+      <ul>
+        <li><strong>1. Start the longer items first.</strong> Register for the National Standards taxi driver certification and request your language evaluation from the Government of New Brunswick.</li>
+        <li><strong>2. Gather your vehicle documents</strong> (owners only): New Brunswick registration for a vehicle under 10 years old and a $2 million insurance policy in your name.</li>
+        <li><strong>3. Get the time-sensitive documents last.</strong> Your driver's abstract and your driver criminal record check must be dated within 30 days of applying, so order them when everything else is ready.</li>
+        <li><strong>4. Check your HST status</strong> with the Canada Revenue Agency and register if you are self-employed.</li>
+        <li><strong>5. Apply to the City of Moncton</strong> with every document included (originals where required) and pay the $110 fee.</li>
+      </ul>
+    </div>
+
+    <div class="container-x mt-10 max-w-3xl">
+      <div class="rounded-3xl border border-line bg-canvas p-6 sm:p-8">
+        <h2 class="text-2xl font-semibold tracking-tight text-ink">Apply for your licence with the City of Moncton</h2>
+        <p class="mt-3 text-muted">Taxi licences are issued by the City of Moncton, not by Taxi Moncton. Use the official application pages:</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href={CITY_DRIVER_URL} target="_blank" rel="noopener" class="btn-primary">Apply for a taxi driver licence<Icon name="arrow" class="h-4 w-4" /></a>
+          <a href={CITY_OWNER_URL} target="_blank" rel="noopener" class="btn-ghost">Apply for a taxi owner licence<Icon name="arrow" class="h-4 w-4" /></a>
+        </div>
+        <p class="mt-6 text-sm text-muted">Requirements and fees on this page are taken from the City of Moncton's website (January 2026) and may change without notice. Questions about licensing? Contact the City of Moncton at <a href="tel:+15068533333" class="underline">506-853-3333</a> or <a href="mailto:info@moncton.ca" class="underline">info@moncton.ca</a>.</p>
+      </div>
+    </div>
+
+    <div class="container-x prose-x mt-14 max-w-3xl">
+      <h2>How to apply to drive with Taxi Moncton</h2>
+      <h3>Already licensed</h3>
+      <p>Email <a href={mailto}>{business.email}</a> with your name, phone number, a short note about your driving experience and a copy of your City of Moncton Taxi Licence, or call us at <a href={tel}>{business.phoneDisplay}</a>.</p>
+      <h3>New to taxi driving</h3>
+      <p>Not licensed yet? Contact us anyway. We are happy to answer questions and guide you through the City of Moncton licensing process.</p>
+    </div>
+  </section>
+
+  <Faq faqs={faqs} heading="Moncton taxi licence questions" />
+
+  <section class="py-16 sm:py-24">
+    <div class="container-x">
+      <div class="relative overflow-hidden rounded-[2rem] bg-ink px-6 py-14 text-center sm:px-16 sm:py-20">
+        <div class="pointer-events-none absolute -top-40 left-1/2 h-80 w-[40rem] -translate-x-1/2 rounded-full bg-brand/25 blur-3xl" aria-hidden="true"></div>
+        <h2 class="relative mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">Ready to drive with us?</h2>
+        <p class="relative mx-auto mt-4 max-w-xl text-lg text-white/60">Send us your details and we will get back to you.</p>
+        <div class="relative mt-8 flex flex-wrap justify-center gap-3">
+          <a href={mailto} class="btn-accent"><Icon name="mail" class="h-4 w-4" />Email {business.email}</a>
+          <a href={tel} class="btn-outline"><Icon name="phone" class="h-4 w-4" />Call {business.phoneDisplay}</a>
+        </div>
+      </div>
     </div>
   </section>
 </Base>
