@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Faq from '../components/Faq.astro';
-import { FARE_CALCULATOR_URL } from '../data/business';
+import { FARE_CALCULATOR_URL, BOOK_LABEL } from '../data/business';
 import { routes } from '../data/home';
 import { breadcrumbSchema, faqSchema } from '../data/schema';
 const crumbs = [{ name: 'Home', href: '/' }, { name: 'Out of Town Rates', href: '/out-of-town-rates' }];
@@ -20,7 +20,7 @@ const faqs = [
   schema={[breadcrumbSchema(crumbs), faqSchema(faqs)]}
 >
   <PageHero h1="Out of Town Taxi Rates from Moncton" lead="Every out-of-town trip is priced on the actual distance between your addresses. Use our fare calculator for an instant quote — it takes seconds." crumbs={crumbs}>
-    <a href={FARE_CALCULATOR_URL} class="btn-dark mt-4">Open the fare calculator</a>
+    <a href={FARE_CALCULATOR_URL} class="btn-dark mt-4" rel="noopener">{BOOK_LABEL}</a>
   </PageHero>
   <section class="py-14">
     <div class="container-x">

@@ -8,7 +8,7 @@ import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
 import { services, getService, type Service } from '../data/services';
 import { areas, type Area } from '../data/areas';
-import { business, FARE_CALCULATOR_URL } from '../data/business';
+import { business, BOOK_URL, BOOK_LABEL } from '../data/business';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '../data/schema';
 
 export function getStaticPaths() {
@@ -71,16 +71,16 @@ const otherAreas = areas.filter((a) => props.kind !== 'area' || a.slug !== props
             <p>Every service we offer in Moncton is available in {props.area.city}: local rides, <a href="/moncton-airport-taxi">airport transfers</a>, <a href="/long-distance-taxi">long-distance trips</a>, <a href="/package-delivery">package delivery</a> and <a href="/chauffeur-service">event transportation</a>.</p>
           </Fragment>
         )}
-        {(props.kind === 'area' || props.service.slug === 'long-distance-taxi' || props.service.slug === 'moncton-airport-taxi') && (
-          <p><a href={FARE_CALCULATOR_URL}>Get an instant fare quote online →</a></p>
-        )}
+        <p><a href={BOOK_URL} rel="noopener">Get an instant fare and book online →</a></p>
       </article>
       <aside class="space-y-4 lg:sticky lg:top-24 lg:self-start">
         <div class="relative overflow-hidden rounded-[2rem] bg-ink p-7 text-white">
           <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-brand/30 blur-2xl" aria-hidden="true"></div>
           <p class="relative text-[13px] font-medium text-white/60">{business.hoursText}</p>
           <p class="relative mt-1 text-xl font-semibold tracking-tight">Book your ride</p>
-          <a href={`tel:${business.phoneE164}`} class="btn-accent relative mt-6 w-full"><Icon name="phone" class="h-4 w-4" />{business.phoneDisplay}</a>
+          <p class="relative mt-1 text-[14px] text-white/60">See your price instantly, then book.</p>
+          <a href={BOOK_URL} rel="noopener" class="btn-accent relative mt-6 w-full">{BOOK_LABEL}<Icon name="arrow" class="h-4 w-4" /></a>
+          <a href={`tel:${business.phoneE164}`} class="btn-outline relative mt-2 w-full"><Icon name="phone" class="h-4 w-4" />{business.phoneDisplay}</a>
           <a href={business.whatsapp} class="btn-outline relative mt-2 w-full" rel="noopener">WhatsApp</a>
         </div>
         <div class="rounded-[2rem] border border-line p-7">

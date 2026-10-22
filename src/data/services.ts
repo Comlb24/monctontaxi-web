@@ -53,7 +53,7 @@ export const services: Service[] = [
     title: 'Long Distance Taxi from Moncton | Taxi Moncton',
     description: 'Long-distance taxi from Moncton to Halifax, Saint John, Fredericton, Charlottetown and more. Get an instant quote online or call (506) 797-0087. 24/7.',
     h1: 'Long Distance Taxi from Moncton',
-    lead: 'Door-to-door intercity rides across New Brunswick, Nova Scotia and PEI. Get an instant quote with our online fare calculator, then book by phone, text or WhatsApp.',
+    lead: 'Door-to-door intercity rides across New Brunswick, Nova Scotia and PEI. Get an instant quote with our online fare calculator and book online in the same step, or by phone, text or WhatsApp.',
     sections: [
       {
         heading: 'Popular routes',

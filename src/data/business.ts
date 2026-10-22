@@ -3,6 +3,9 @@
 
 export const SITE_URL = 'https://www.monctontaxi.com';
 export const FARE_CALCULATOR_URL = 'https://farecalculator.vercel.app';
+// Primary booking action across the site: the fare calculator doubles as the booking form.
+export const BOOK_URL = FARE_CALCULATOR_URL;
+export const BOOK_LABEL = 'Get fare & book';
 
 export const business = {
   // Must match the Google Business Profile listing name exactly.

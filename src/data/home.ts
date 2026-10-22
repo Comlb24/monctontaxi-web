@@ -16,7 +16,7 @@ export const GOOGLE_REVIEWS_URL = '';
 
 export const homeFaqs: Faq[] = [
   { q: 'Is Taxi Moncton open 24/7?', a: 'Yes. We dispatch cabs 24 hours a day, 7 days a week, including holidays. Call or text (506) 797-0087 any time.' },
-  { q: 'How do I book a taxi in Moncton?', a: 'Call or text (506) 797-0087, message us on WhatsApp, or book a local ride online. For long-distance trips, get an instant quote with our online fare calculator first.' },
+  { q: 'How do I book a taxi in Moncton?', a: 'The easiest way is our online fare calculator: enter your pickup and drop-off, see your price instantly and book in the same step. You can also call or text (506) 797-0087 or message us on WhatsApp.' },
   { q: 'How much is a taxi from Moncton to Halifax?', a: 'The fare depends on your exact pickup and drop-off addresses. Enter them in our online fare calculator for an instant quote, or call us for a price before you book.' },
   { q: 'Do you pick up at Moncton airport (YQM)?', a: 'Yes. We do pickups and drop-offs at Greater Moncton Roméo LeBlanc International Airport. Share your flight number and we track your arrival.' },
   { q: 'Can I book a taxi in advance?', a: 'Yes. We recommend booking ahead for early-morning flights, long-distance trips and events. Call, text or email with your date, time and addresses.' },

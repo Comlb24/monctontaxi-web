@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
-import { business, tel, sms } from '../data/business';
+import { business, tel, sms, BOOK_URL, BOOK_LABEL } from '../data/business';
 interface Props { h1: string; lead: string; crumbs: { name: string; href: string }[] }
 const { h1, lead, crumbs } = Astro.props;
 ---
@@ -12,7 +12,8 @@ const { h1, lead, crumbs } = Astro.props;
     <h1 class="mt-8 max-w-4xl text-4xl font-semibold tracking-[-0.035em] sm:text-6xl" style="line-height:1.04">{h1}</h1>
     <p class="lede mt-6 max-w-2xl">{lead}</p>
     <div class="mt-8 flex flex-wrap gap-3">
-      <a href={tel} class="btn-primary"><Icon name="phone" class="h-4 w-4" />Call {business.phoneDisplay}</a>
+      <a href={BOOK_URL} rel="noopener" class="btn-primary">{BOOK_LABEL}<Icon name="arrow" class="h-4 w-4" /></a>
+      <a href={tel} class="btn-ghost"><Icon name="phone" class="h-4 w-4" />Call {business.phoneDisplay}</a>
       <a href={sms} class="btn-ghost"><Icon name="chat" class="h-4 w-4" />Text to book</a>
     </div>
     <slot />

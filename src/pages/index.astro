@@ -3,14 +3,14 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import Faq from '../components/Faq.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { business, tel, sms, addressOneLine, FARE_CALCULATOR_URL } from '../data/business';
+import { business, tel, sms, addressOneLine, FARE_CALCULATOR_URL, BOOK_URL, BOOK_LABEL } from '../data/business';
 import { services, localTaxi } from '../data/services';
 import { areas } from '../data/areas';
 import { routes, reviews, GOOGLE_REVIEWS_URL, homeFaqs } from '../data/home';
 import { websiteSchema, faqSchema } from '../data/schema';
 
 const title = 'Taxi Moncton | 24/7 Moncton Cab, Airport & Long Distance';
-const description = 'Taxi Moncton: 24/7 local cabs, YQM airport rides and long-distance trips to Halifax, Saint John & PEI. Call or text (506) 797-0087 or get a quote online.';
+const description = 'Taxi Moncton: 24/7 local cabs, YQM airport rides and long-distance trips to Halifax, Saint John & PEI. Get your fare and book online, or call (506) 797-0087.';
 
 const serviceCards = [
   { ...localTaxi, href: '/services' },
@@ -21,7 +21,7 @@ const whyUs = [
   { icon: 'clock', title: 'On the road 24/7', text: 'Day, night, weekends and holidays — dispatch is always answering.' },
   { icon: 'pin', title: 'Local drivers', text: 'Our drivers live here and know every Moncton, Dieppe and Riverview street.' },
   { icon: 'plane', title: 'Flight tracking', text: 'Airport pickups adjust to your real arrival time, so you are never left waiting.' },
-  { icon: 'dollar', title: 'Upfront pricing', text: 'Instant long-distance quotes online and no hidden fees.' },
+  { icon: 'dollar', title: 'Upfront pricing', text: 'Instant fares online for every trip and no hidden fees.' },
 ];
 ---
 <Base title={title} description={description} schema={[websiteSchema, faqSchema(homeFaqs)]}>
@@ -36,10 +36,11 @@ const whyUs = [
           Dispatch open now · 24/7
         </p>
         <h1 class="h-display mt-6">Moncton taxi,<br /><span class="relative whitespace-nowrap">any hour<svg class="absolute -bottom-2 left-0 h-3 w-full text-brand" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 9c50-6 146-8 196-4" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span> of the day.</h1>
-        <p class="lede mt-7 max-w-xl">Local rides, airport transfers and long-distance trips across New Brunswick, Nova Scotia and PEI. One call or text and a driver is on the way.</p>
+        <p class="lede mt-7 max-w-xl">Local rides, airport transfers and long-distance trips across New Brunswick, Nova Scotia and PEI. Get an instant fare and book online in seconds — or call or text dispatch.</p>
         <div class="mt-9 flex flex-wrap gap-3">
-          <a href={tel} class="btn-primary !px-7 !py-3.5"><Icon name="phone" class="h-4 w-4" />Call {business.phoneDisplay}</a>
-          <a href={sms} class="btn-ghost !px-7 !py-3.5"><Icon name="chat" class="h-4 w-4" />Text to book</a>
+          <a href={BOOK_URL} rel="noopener" class="btn-primary !px-7 !py-3.5">{BOOK_LABEL}<Icon name="arrow" class="h-4 w-4" /></a>
+          <a href={tel} class="btn-ghost !px-7 !py-3.5"><Icon name="phone" class="h-4 w-4" />Call {business.phoneDisplay}</a>
+          <a href={sms} class="btn-ghost !px-7 !py-3.5"><Icon name="chat" class="h-4 w-4" />Text</a>
         </div>
         <ul class="mt-10 grid max-w-lg grid-cols-2 gap-x-6 gap-y-3 text-[14px] text-muted">
           {['24/7 dispatch', 'Professional local drivers', 'Sedans, SUVs & vans', 'No hidden fees'].map((t) => (
@@ -51,17 +52,17 @@ const whyUs = [
       <!-- 2. Quick booking panel -->
       <div class="rounded-[2rem] border border-line bg-white/90 p-3 shadow-[0_30px_80px_-20px_rgba(11,15,25,0.18)] backdrop-blur">
         <div class="px-4 pb-3 pt-4">
-          <p class="text-[13px] font-medium text-muted">Book a ride</p>
-          <h2 class="mt-1 text-xl font-semibold tracking-tight">Where are you headed?</h2>
+          <p class="text-[13px] font-medium text-muted">Book online</p>
+          <h2 class="mt-1 text-xl font-semibold tracking-tight">Get your fare in seconds</h2>
         </div>
         <ul class="space-y-1">
           {[
-            { href: '/book-online', icon: 'car', t: 'Around town', d: 'Moncton, Dieppe & Riverview' },
-            { href: '/moncton-airport-taxi', icon: 'plane', t: 'To or from the airport', d: 'YQM · Halifax YHZ · Saint John YSJ' },
-            { href: FARE_CALCULATOR_URL, icon: 'route', t: 'Out of town', d: 'Instant long-distance quote' },
+            { href: BOOK_URL, icon: 'car', t: 'Around town', d: 'Moncton, Dieppe & Riverview' },
+            { href: BOOK_URL, icon: 'plane', t: 'To or from the airport', d: 'YQM · Halifax YHZ · Saint John YSJ' },
+            { href: BOOK_URL, icon: 'route', t: 'Out of town', d: 'Anywhere in the Maritimes' },
           ].map((o) => (
             <li>
-              <a href={o.href} class="group flex items-center gap-4 rounded-2xl p-4 transition-colors hover:bg-canvas">
+              <a href={o.href} rel="noopener" class="group flex items-center gap-4 rounded-2xl p-4 transition-colors hover:bg-canvas">
                 <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-soft text-ink"><Icon name={o.icon} class="h-5 w-5" /></span>
                 <span class="flex-1"><span class="block font-medium">{o.t}</span><span class="text-[14px] text-muted">{o.d}</span></span>
                 <Icon name="arrow" class="h-4 w-4 text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-ink" />
@@ -69,6 +70,7 @@ const whyUs = [
             </li>
           ))}
         </ul>
+        <a href={BOOK_URL} rel="noopener" class="btn-primary mt-2 w-full !py-3.5">Calculate fare & book<Icon name="arrow" class="h-4 w-4" /></a>
         <div class="mt-2 flex items-center justify-between rounded-2xl bg-canvas px-4 py-3 text-[14px]">
           <span class="text-muted">Prefer WhatsApp?</span>
           <a href={business.whatsapp} class="font-medium underline decoration-brand decoration-2 underline-offset-4" rel="noopener">Message us</a>

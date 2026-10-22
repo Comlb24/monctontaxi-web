@@ -2,37 +2,62 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Icon from '../components/Icon.astro';
-import { business, tel, sms, mailto, FARE_CALCULATOR_URL } from '../data/business';
+import { business, tel, sms, mailto, BOOK_URL, BOOK_LABEL } from '../data/business';
 import { breadcrumbSchema } from '../data/schema';
 const crumbs = [{ name: 'Home', href: '/' }, { name: 'Book Online', href: '/book-online' }];
+const steps = [
+  { t: 'Enter your trip', d: 'Pickup, drop-off, date and time.' },
+  { t: 'See your fare', d: 'Your price is calculated instantly from the real distance.' },
+  { t: 'Book now', d: 'Add your details and confirm. We take it from there.' },
+];
 const options = [
-  { icon: 'phone', title: 'Call dispatch', text: 'Fastest for rides right now.', cta: `Call ${business.phoneDisplay}`, href: tel },
+  { icon: 'phone', title: 'Call dispatch', text: 'Best for a ride right now.', cta: `Call ${business.phoneDisplay}`, href: tel },
   { icon: 'chat', title: 'Send a text', text: 'Text your pickup address, time and number of passengers.', cta: 'Text to book', href: sms },
   { icon: 'chat', title: 'WhatsApp', text: 'Message us your trip details on WhatsApp.', cta: 'Open WhatsApp', href: business.whatsapp },
-  { icon: 'route', title: 'Long-distance quote', text: 'Instant price for any out-of-town address, then book.', cta: 'Get a quote', href: FARE_CALCULATOR_URL },
   { icon: 'mail', title: 'Email', text: 'Best for advance and corporate bookings.', cta: business.email, href: mailto },
 ];
 ---
 <Base
-  title="Book a Taxi in Moncton – Call, Text or WhatsApp"
-  description="Book a Moncton taxi in seconds: call or text (506) 797-0087, message us on WhatsApp, or get an instant long-distance quote online. 24/7 service."
+  title="Book a Taxi Online in Moncton – Instant Fare | Taxi Moncton"
+  description="Book a Moncton taxi online: enter your addresses, see your fare instantly and book in seconds. Or call or text (506) 797-0087 or message us on WhatsApp. 24/7 service."
   schema={[breadcrumbSchema(crumbs)]}
 >
-  <PageHero h1="Book a Taxi in Moncton" lead="Choose the way that suits you. For on-demand local rides, calling or texting dispatch is quickest." crumbs={crumbs} />
+  <PageHero h1="Book a Taxi Online in Moncton" lead="Enter your pickup and drop-off, see your fare instantly and book in the same step. It works for local rides, airport transfers and long-distance trips." crumbs={crumbs} />
   <section class="py-14">
     <div class="container-x">
-      <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="relative overflow-hidden rounded-[2rem] bg-ink p-8 text-white sm:p-12">
+        <div class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand/30 blur-3xl" aria-hidden="true"></div>
+        <div class="relative grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+          <div>
+            <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand text-ink"><Icon name="route" class="h-6 w-6" /></span>
+            <h2 class="mt-6 text-3xl font-semibold tracking-tight sm:text-4xl">Instant fare, booked online</h2>
+            <p class="mt-3 max-w-md text-white/60">The quickest way to book. No waiting on hold, and you see the price before you confirm.</p>
+            <a href={BOOK_URL} rel="noopener" class="btn-accent mt-8 !px-7 !py-3.5">{BOOK_LABEL}<Icon name="arrow" class="h-4 w-4" /></a>
+          </div>
+          <ol class="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+            {steps.map((s, i) => (
+              <li class="flex gap-4 rounded-2xl bg-white/5 p-5">
+                <span class="font-mono text-sm font-semibold text-brand">0{i + 1}</span>
+                <span><span class="block font-semibold">{s.t}</span><span class="text-[14px] text-white/60">{s.d}</span></span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      <h2 class="mt-16 text-2xl font-bold text-ink">Prefer to talk to us?</h2>
+      <ul class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {options.map((o) => (
           <li class="flex flex-col rounded-3xl border border-line p-6">
             <span class="w-fit rounded-xl bg-canvas p-3"><Icon name={o.icon} /></span>
-            <h2 class="mt-4 text-xl font-bold text-ink">{o.title}</h2>
+            <h3 class="mt-4 text-xl font-bold text-ink">{o.title}</h3>
             <p class="mt-2 flex-1 text-muted">{o.text}</p>
-            <a href={o.href} class="btn-primary mt-5 break-all" rel={o.href.startsWith('http') ? 'noopener' : undefined}>{o.cta}</a>
+            <a href={o.href} class="btn-ghost mt-5 break-all" rel={o.href.startsWith('http') ? 'noopener' : undefined}>{o.cta}</a>
           </li>
         ))}
       </ul>
       <div class="prose-x mt-12 max-w-3xl">
-        <h2>What to include when you book</h2>
+        <h2>What to include when you book by phone or message</h2>
         <ul>
           <li>Pickup address and destination</li>
           <li>Date and time (or "now")</li>

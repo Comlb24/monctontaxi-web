@@ -1,7 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
-import { business, tel } from '../data/business';
+import { business, tel, BOOK_URL, BOOK_LABEL } from '../data/business';
 import { mainNav } from '../data/nav';
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
@@ -21,12 +21,14 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
       </ul>
     </nav>
     <div class="flex items-center gap-2">
-      <a href={tel} class="btn-primary hidden whitespace-nowrap !px-4 !py-2 !text-sm sm:inline-flex"><Icon name="phone" class="h-4 w-4" />{business.phoneDisplay}</a>
+      <a href={tel} class="hidden items-center gap-1.5 whitespace-nowrap px-2 text-sm font-medium text-muted hover:text-ink lg:inline-flex"><Icon name="phone" class="h-4 w-4" />{business.phoneDisplay}</a>
+      <a href={BOOK_URL} rel="noopener" class="btn-primary hidden whitespace-nowrap !px-4 !py-2 !text-sm sm:inline-flex">{BOOK_LABEL}<Icon name="arrow" class="h-4 w-4" /></a>
       <details class="group relative xl:hidden">
         <summary class="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full border border-line" aria-label="Open menu"><Icon name="menu" class="h-5 w-5" /></summary>
         <nav aria-label="Mobile" class="absolute right-0 mt-3 w-72 rounded-3xl border border-line bg-white p-2 shadow-2xl shadow-black/10">
           {mainNav.map((l) => <a href={l.href} class="block rounded-2xl px-4 py-3 text-[15px] font-medium hover:bg-canvas">{l.label}</a>)}
-          <a href="/book-online" class="btn-accent mt-2 w-full">Book a ride</a>
+          <a href={BOOK_URL} rel="noopener" class="btn-accent mt-2 w-full">{BOOK_LABEL}</a>
+          <a href={tel} class="btn-ghost mt-2 w-full"><Icon name="phone" class="h-4 w-4" />Call {business.phoneDisplay}</a>
         </nav>
       </details>
     </div>
