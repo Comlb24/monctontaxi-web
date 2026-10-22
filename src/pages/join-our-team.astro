@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { business, mailto, tel } from '../data/business';
+import { breadcrumbSchema } from '../data/schema';
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Join Our Team', href: '/join-our-team' }];
+---
+<Base
+  title="Taxi Driver Jobs in Moncton – Join Our Team | Taxi Moncton"
+  description="Drive with Taxi Moncton. We are looking for professional, friendly drivers in Moncton, Dieppe and Riverview. Email info@monctontaxi.com to apply."
+  schema={[breadcrumbSchema(crumbs)]}
+>
+  <PageHero h1="Join Our Team" lead="Know Moncton well and enjoy helping people get where they need to go? We would like to hear from you." crumbs={crumbs} />
+  <section class="py-14">
+    <div class="container-x prose-x max-w-3xl">
+      <h2>Who we are looking for</h2>
+      <ul>
+        <li>Professional, courteous drivers who put safety first</li>
+        <li>Good knowledge of Moncton, Dieppe and Riverview</li>
+        <li>Valid driver's licence and the ability to meet local taxi licensing requirements</li>
+      </ul>
+      <h2>How to apply</h2>
+      <p>Email <a href={mailto}>{business.email}</a> with your name, phone number and a short note about your driving experience, or call us at <a href={tel}>{business.phoneDisplay}</a>.</p>
+    </div>
+  </section>
+</Base>

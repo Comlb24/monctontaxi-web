@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { business, addressOneLine } from '../data/business';
+import { breadcrumbSchema } from '../data/schema';
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'About', href: '/about' }];
+---
+<Base
+  title="About Taxi Moncton – Local, Reliable, 24/7 | Taxi Moncton"
+  description="Taxi Moncton is a locally owned cab company in downtown Moncton, NB, with professional drivers and a well-maintained fleet of sedans, SUVs and vans."
+  schema={[breadcrumbSchema(crumbs)]}
+>
+  <PageHero h1="About Taxi Moncton" lead="A locally owned taxi company built on one simple idea: Moncton deserves transportation that is reliable, affordable and friendly." crumbs={crumbs} />
+  <section class="py-14">
+    <div class="container-x prose-x max-w-3xl">
+      <h2>Rooted in Moncton</h2>
+      <p>{business.name} was started by a Moncton native who wanted to give the community a taxi service it could count on. Today we operate from {addressOneLine}, serving riders across Moncton, Dieppe and Riverview and driving to destinations throughout New Brunswick, Nova Scotia and PEI.</p>
+      <h2>What makes us different</h2>
+      <h3>A deep connection to the community</h3>
+      <p>Our drivers live here. They know the shortcuts, the winter road conditions and the places you are going.</p>
+      <h3>Professional drivers</h3>
+      <p>Every driver is licensed, courteous and focused on getting you there safely and on time.</p>
+      <h3>Quality service</h3>
+      <p>Our well-maintained fleet of sedans, SUVs and vans, 24/7 dispatch and upfront pricing make every ride straightforward.</p>
+      <h2>Our values</h2>
+      <ul><li>Professionalism</li><li>Reliability</li><li>Customer satisfaction</li></ul>
+    </div>
+  </section>
+  <CtaBand />
+</Base>

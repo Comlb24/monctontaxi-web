@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { business, tel, sms, mailto, FARE_CALCULATOR_URL } from '../data/business';
+import { breadcrumbSchema } from '../data/schema';
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Book Online', href: '/book-online' }];
+const options = [
+  { icon: 'phone', title: 'Call dispatch', text: 'Fastest for rides right now.', cta: `Call ${business.phoneDisplay}`, href: tel },
+  { icon: 'chat', title: 'Send a text', text: 'Text your pickup address, time and number of passengers.', cta: 'Text to book', href: sms },
+  { icon: 'chat', title: 'WhatsApp', text: 'Message us your trip details on WhatsApp.', cta: 'Open WhatsApp', href: business.whatsapp },
+  { icon: 'route', title: 'Long-distance quote', text: 'Instant price for any out-of-town address, then book.', cta: 'Get a quote', href: FARE_CALCULATOR_URL },
+  { icon: 'mail', title: 'Email', text: 'Best for advance and corporate bookings.', cta: business.email, href: mailto },
+];
+---
+<Base
+  title="Book a Taxi in Moncton – Call, Text or WhatsApp"
+  description="Book a Moncton taxi in seconds: call or text (506) 797-0087, message us on WhatsApp, or get an instant long-distance quote online. 24/7 service."
+  schema={[breadcrumbSchema(crumbs)]}
+>
+  <PageHero h1="Book a Taxi in Moncton" lead="Choose the way that suits you. For on-demand local rides, calling or texting dispatch is quickest." crumbs={crumbs} />
+  <section class="py-14">
+    <div class="container-x">
+      <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {options.map((o) => (
+          <li class="flex flex-col rounded-3xl border border-line p-6">
+            <span class="w-fit rounded-xl bg-canvas p-3"><Icon name={o.icon} /></span>
+            <h2 class="mt-4 text-xl font-bold text-ink">{o.title}</h2>
+            <p class="mt-2 flex-1 text-muted">{o.text}</p>
+            <a href={o.href} class="btn-primary mt-5 break-all" rel={o.href.startsWith('http') ? 'noopener' : undefined}>{o.cta}</a>
+          </li>
+        ))}
+      </ul>
+      <div class="prose-x mt-12 max-w-3xl">
+        <h2>What to include when you book</h2>
+        <ul>
+          <li>Pickup address and destination</li>
+          <li>Date and time (or "now")</li>
+          <li>Number of passengers and bags</li>
+          <li>Flight number for airport pickups</li>
+        </ul>
+        <p>By booking you agree to our <a href="/transportation-terms-and-conditions">Transportation Terms & Conditions</a>.</p>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,20 @@
+---
+import Icon from './Icon.astro';
+import { business, tel, sms, FARE_CALCULATOR_URL } from '../data/business';
+interface Props { heading?: string; text?: string }
+const { heading = 'Need a ride? We’re on the road 24/7.', text = 'Call or text dispatch for a local ride, or get an instant long-distance quote online.' } = Astro.props;
+---
+<section class="py-16 sm:py-24">
+  <div class="container-x">
+    <div class="relative overflow-hidden rounded-[2rem] bg-ink px-6 py-14 text-center sm:px-16 sm:py-20">
+      <div class="pointer-events-none absolute -top-40 left-1/2 h-80 w-[40rem] -translate-x-1/2 rounded-full bg-brand/25 blur-3xl" aria-hidden="true"></div>
+      <h2 class="relative mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">{heading}</h2>
+      <p class="relative mx-auto mt-4 max-w-xl text-lg text-white/60">{text}</p>
+      <div class="relative mt-8 flex flex-wrap justify-center gap-3">
+        <a href={tel} class="btn-accent"><Icon name="phone" class="h-4 w-4" />Call {business.phoneDisplay}</a>
+        <a href={sms} class="btn-outline"><Icon name="chat" class="h-4 w-4" />Text us</a>
+        <a href={FARE_CALCULATOR_URL} class="btn-outline">Get a quote</a>
+      </div>
+    </div>
+  </div>
+</section>

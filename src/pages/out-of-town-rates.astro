@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import { FARE_CALCULATOR_URL } from '../data/business';
+import { routes } from '../data/home';
+import { breadcrumbSchema, faqSchema } from '../data/schema';
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Out of Town Rates', href: '/out-of-town-rates' }];
+const faqs = [
+  { q: 'What counts as out of town?', a: 'Our standard service area is Moncton, Dieppe and Riverview. Pickups or drop-offs outside that area are out-of-town trips.' },
+  { q: 'Do out-of-town trips need to be prepaid?', a: 'Yes. Out-of-town pickups require full prepayment, as set out in our Transportation Terms & Conditions.' },
+  { q: 'Is there a minimum fare?', a: 'A minimum booking charge of $25 applies to all rides.' },
+  { q: 'How is wait time charged?', a: 'A 15-minute grace period is included at pickup. Additional wait time is charged at $60 per hour, billed proportionally, unless a custom rate is agreed in advance.' },
+];
+---
+<Base
+  title="Out of Town Taxi Rates from Moncton | Taxi Moncton"
+  description="Out-of-town taxi rates from Moncton to Halifax, Saint John, Fredericton, Charlottetown, Shediac and Sussex. Get an instant quote online or call (506) 797-0087."
+  schema={[breadcrumbSchema(crumbs), faqSchema(faqs)]}
+>
+  <PageHero h1="Out of Town Taxi Rates from Moncton" lead="Every out-of-town trip is priced on the actual distance between your addresses. Use our fare calculator for an instant quote — it takes seconds." crumbs={crumbs}>
+    <a href={FARE_CALCULATOR_URL} class="btn-dark mt-4">Open the fare calculator</a>
+  </PageHero>
+  <section class="py-14">
+    <div class="container-x">
+      <h2 class="text-2xl font-bold text-ink">Popular out-of-town destinations</h2>
+      <div class="mt-6 overflow-x-auto rounded-3xl border border-line">
+        <table class="w-full min-w-[520px] text-left">
+          <thead class="bg-canvas text-sm text-muted">
+            <tr><th class="p-4">From Moncton to</th><th class="p-4">Typical drive</th><th class="p-4">Fare</th></tr>
+          </thead>
+          <tbody class="divide-y divide-line">
+            {routes.map((r) => (
+              <tr>
+                <td class="p-4"><span class="font-semibold text-ink">{r.to}</span><br /><span class="text-sm text-muted">{r.note}</span></td>
+                <td class="p-4 text-muted">{r.time}</td>
+                <td class="p-4"><a href={FARE_CALCULATOR_URL} class="font-semibold text-ink underline decoration-brand decoration-2 underline-offset-4">Get instant quote</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-sm text-muted">Drive times are approximate and vary with traffic and weather. See our <a href="/transportation-terms-and-conditions" class="underline">Transportation Terms & Conditions</a> for prepayment, cancellation and wait-time policies.</p>
+    </div>
+  </section>
+  <Faq faqs={faqs} heading="Out-of-town rate questions" />
+  <CtaBand heading="Ready to book your trip?" />
+</Base>

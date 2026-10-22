@@ -1,0 +1,98 @@
+---
+// Renders every service page (/moncton-airport-taxi, …) and city page (/taxi-dieppe, …)
+// from src/data/services.ts and src/data/areas.ts.
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { services, getService, type Service } from '../data/services';
+import { areas, type Area } from '../data/areas';
+import { business, FARE_CALCULATOR_URL } from '../data/business';
+import { breadcrumbSchema, faqSchema, serviceSchema } from '../data/schema';
+
+export function getStaticPaths() {
+  return [
+    ...services.map((s) => ({ params: { slug: s.slug }, props: { kind: 'service' as const, service: s } })),
+    ...areas.map((a) => ({ params: { slug: a.slug }, props: { kind: 'area' as const, area: a } })),
+  ];
+}
+
+type Props = { kind: 'service'; service: Service } | { kind: 'area'; area: Area };
+const props = Astro.props;
+const path = `/${Astro.params.slug}`;
+
+let title: string, description: string, h1: string, lead: string, crumbs: { name: string; href: string }[];
+let faqs: Service['faqs'] = [];
+if (props.kind === 'service') {
+  ({ title, description, h1, lead, faqs } = props.service);
+  crumbs = [{ name: 'Home', href: '/' }, { name: 'Services', href: '/services' }, { name: props.service.name, href: path }];
+} else {
+  const a = props.area;
+  ({ title, description, h1 } = a);
+  lead = a.intro;
+  crumbs = [{ name: 'Home', href: '/' }, { name: `Taxi ${a.city}`, href: path }];
+  faqs = [
+    { q: `Do you pick up in ${a.city} 24/7?`, a: `Yes. Call or text ${business.phoneDisplay} any time, day or night, for a pickup anywhere in ${a.city}.` },
+    { q: `Can I get a taxi from ${a.city} to Moncton airport?`, a: `Yes. We run ${a.city} to Greater Moncton Roméo LeBlanc International Airport (YQM) trips around the clock. Book ahead with your flight time.` },
+    { q: `How much is a taxi from ${a.city}?`, a: `Fares depend on your pickup and drop-off addresses. Use our online fare calculator for an instant quote or call us for a price.` },
+  ];
+}
+
+const schema: object[] = [breadcrumbSchema(crumbs), faqSchema(faqs)];
+if (props.kind === 'service') schema.push(serviceSchema(props.service.name, description, path));
+
+const related = props.kind === 'service' ? props.service.related.map(getService) : services.slice(0, 3);
+const otherAreas = areas.filter((a) => props.kind !== 'area' || a.slug !== props.area.slug);
+---
+<Base title={title} description={description} schema={schema}>
+  <PageHero h1={h1} lead={lead} crumbs={crumbs}>
+    {props.kind === 'area' && <p class="mt-6 inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-1.5 text-[13px] font-medium text-muted"><Icon name="pin" class="h-5 w-5" />{props.area.distance}</p>}
+  </PageHero>
+
+  <section class="py-16 sm:py-20">
+    <div class="container-x grid gap-14 lg:grid-cols-[1.8fr_1fr]">
+      <article class="prose-x">
+        {props.kind === 'service' ? (
+          props.service.sections.map((s) => (
+            <Fragment>
+              <h2>{s.heading}</h2>
+              <p>{s.body}</p>
+              {s.bullets && <ul>{s.bullets.map((b) => <li>{b}</li>)}</ul>}
+            </Fragment>
+          ))
+        ) : (
+          <Fragment>
+            <h2>Why {props.area.city} riders choose {business.name}</h2>
+            <ul>{props.area.highlights.map((h) => <li>{h}</li>)}</ul>
+            <h2>Popular pickups and drop-offs</h2>
+            <ul>{props.area.landmarks.map((l) => <li>{l}</li>)}</ul>
+            <h2>Services available in {props.area.city}</h2>
+            <p>Every service we offer in Moncton is available in {props.area.city}: local rides, <a href="/moncton-airport-taxi">airport transfers</a>, <a href="/long-distance-taxi">long-distance trips</a>, <a href="/package-delivery">package delivery</a> and <a href="/chauffeur-service">event transportation</a>.</p>
+          </Fragment>
+        )}
+        {(props.kind === 'area' || props.service.slug === 'long-distance-taxi' || props.service.slug === 'moncton-airport-taxi') && (
+          <p><a href={FARE_CALCULATOR_URL}>Get an instant fare quote online →</a></p>
+        )}
+      </article>
+      <aside class="space-y-4 lg:sticky lg:top-24 lg:self-start">
+        <div class="relative overflow-hidden rounded-[2rem] bg-ink p-7 text-white">
+          <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-brand/30 blur-2xl" aria-hidden="true"></div>
+          <p class="relative text-[13px] font-medium text-white/60">{business.hoursText}</p>
+          <p class="relative mt-1 text-xl font-semibold tracking-tight">Book your ride</p>
+          <a href={`tel:${business.phoneE164}`} class="btn-accent relative mt-6 w-full"><Icon name="phone" class="h-4 w-4" />{business.phoneDisplay}</a>
+          <a href={business.whatsapp} class="btn-outline relative mt-2 w-full" rel="noopener">WhatsApp</a>
+        </div>
+        <div class="rounded-[2rem] border border-line p-7">
+          <p class="text-[13px] font-semibold uppercase tracking-[0.14em]">Related services</p>
+          <ul class="mt-4 space-y-2.5 text-[15px]">{related.map((r) => <li><a href={`/${r.slug}`} class="text-muted hover:text-ink">{r.name} →</a></li>)}</ul>
+          <p class="mt-7 text-[13px] font-semibold uppercase tracking-[0.14em]">Areas we serve</p>
+          <ul class="mt-4 flex flex-wrap gap-2 text-[14px]">{otherAreas.map((a) => <li><a href={`/${a.slug}`} class="block rounded-full border border-line px-3 py-1 hover:border-ink">{a.city}</a></li>)}</ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <Faq faqs={faqs} />
+  <CtaBand />
+</Base>

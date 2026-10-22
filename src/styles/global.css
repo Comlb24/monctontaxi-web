@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #c9a45c;
+  --color-brand-dark: #8a6a2c;
+  --color-brand-soft: #f6f0e4;
+  --color-ink: #0b0f19;
+  --color-muted: #5b6474;
+  --color-line: #e8e8ec;
+  --color-canvas: #f7f7f5;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { @apply bg-white text-ink antialiased; font-feature-settings: "cv11", "ss01"; }
+:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 3px; border-radius: 6px; }
+::selection { background: var(--color-brand); }
+
+@utility container-x { @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8; }
+@utility section { @apply py-20 sm:py-28; }
+@utility eyebrow { @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted; }
+@utility h-display { @apply text-4xl font-semibold tracking-[-0.035em] text-ink sm:text-6xl lg:text-7xl; line-height: 1.02; }
+@utility h-section { @apply text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl; line-height: 1.08; }
+@utility lede { @apply text-lg leading-relaxed text-muted sm:text-xl; }
+@utility card { @apply rounded-3xl border border-line bg-white; }
+@utility btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[15px] font-medium transition-all duration-200; }
+@utility btn-primary { @apply btn bg-ink text-white hover:bg-black hover:shadow-lg hover:shadow-black/10; }
+@utility btn-accent { @apply btn bg-brand text-ink hover:bg-[#d8b672]; }
+@utility btn-ghost { @apply btn border border-line bg-white text-ink hover:border-ink/30; }
+@utility btn-dark { @apply btn-primary; }
+@utility btn-outline { @apply btn border border-white/25 text-white hover:bg-white/10; }
+
+.prose-x p { @apply mb-5 text-[17px] leading-relaxed text-muted; }
+.prose-x h2 { @apply mt-12 mb-4 text-2xl font-semibold tracking-tight text-ink first:mt-0; }
+.prose-x h3 { @apply mt-8 mb-2 text-lg font-semibold text-ink; }
+.prose-x ul { @apply mb-5 space-y-2 text-[17px] text-muted; }
+.prose-x ul li { @apply relative pl-6; }
+.prose-x ul li::before { content: ""; @apply absolute left-0 top-[0.6em] h-1.5 w-1.5 rounded-full bg-brand-dark; }
+.prose-x a { @apply font-medium text-ink underline decoration-brand decoration-2 underline-offset-4 hover:decoration-ink; }

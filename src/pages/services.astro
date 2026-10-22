@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { services } from '../data/services';
+import { breadcrumbSchema } from '../data/schema';
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Services', href: '/services' }];
+---
+<Base
+  title="Taxi & Delivery Services in Moncton | Taxi Moncton"
+  description="24/7 local taxi, airport transfers, long-distance trips, chauffeur & events, corporate accounts, plus package, gas & grocery delivery in Moncton."
+  schema={[breadcrumbSchema(crumbs)]}
+>
+  <PageHero h1="Taxi Services in Moncton" lead="One dispatch for every ride and delivery across Greater Moncton and the Maritimes — 24 hours a day." crumbs={crumbs} />
+  <section class="py-14">
+    <div class="container-x">
+      <div class="prose-x max-w-3xl">
+        <h2>Local taxi in Moncton, Dieppe & Riverview</h2>
+        <p>Our standard service area covers Moncton, Dieppe and Riverview. Call or text for an on-demand pickup, or book ahead for appointments, work shifts and nights out. Cars, SUVs and vans are available.</p>
+      </div>
+      <ul class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((s) => (
+          <li>
+            <a href={`/${s.slug}`} class="group flex h-full flex-col rounded-3xl border border-line p-6 hover:-translate-y-0.5 hover:shadow-[0_20px_50px_-24px_rgba(11,15,25,0.25)] transition-all">
+              <span class="w-fit rounded-xl bg-canvas p-3"><Icon name={s.icon} /></span>
+              <h2 class="mt-4 text-xl font-bold text-ink">{s.name}</h2>
+              <p class="mt-2 flex-1 text-muted">{s.short}</p>
+              <span class="mt-4 font-semibold group-hover:underline">Learn more →</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <CtaBand />
+</Base>

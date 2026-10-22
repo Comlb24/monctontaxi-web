@@ -1,0 +1,301 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { business, tel, sms, addressOneLine, FARE_CALCULATOR_URL } from '../data/business';
+import { services, localTaxi } from '../data/services';
+import { areas } from '../data/areas';
+import { routes, reviews, GOOGLE_REVIEWS_URL, homeFaqs } from '../data/home';
+import { websiteSchema, faqSchema } from '../data/schema';
+
+const title = 'Taxi Moncton | 24/7 Moncton Cab, Airport & Long Distance';
+const description = 'Taxi Moncton: 24/7 local cabs, YQM airport rides and long-distance trips to Halifax, Saint John & PEI. Call or text (506) 797-0087 or get a quote online.';
+
+const serviceCards = [
+  { ...localTaxi, href: '/services' },
+  ...services.map((s) => ({ name: s.name, short: s.short, icon: s.icon, href: `/${s.slug}` })),
+];
+
+const whyUs = [
+  { icon: 'clock', title: 'On the road 24/7', text: 'Day, night, weekends and holidays — dispatch is always answering.' },
+  { icon: 'pin', title: 'Local drivers', text: 'Our drivers live here and know every Moncton, Dieppe and Riverview street.' },
+  { icon: 'plane', title: 'Flight tracking', text: 'Airport pickups adjust to your real arrival time, so you are never left waiting.' },
+  { icon: 'dollar', title: 'Upfront pricing', text: 'Instant long-distance quotes online and no hidden fees.' },
+];
+---
+<Base title={title} description={description} schema={[websiteSchema, faqSchema(homeFaqs)]}>
+  <!-- 1. Hero -->
+  <section class="relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(60rem_30rem_at_85%_-10%,rgba(201,164,92,0.22),transparent_60%)]" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#0b0f190a_1px,transparent_1px),linear-gradient(to_bottom,#0b0f190a_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" aria-hidden="true"></div>
+    <div class="container-x relative grid gap-14 pb-20 pt-14 sm:pt-20 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:pb-28">
+      <div>
+        <p class="inline-flex items-center gap-2 rounded-full border border-line bg-white/80 px-3 py-1.5 text-[13px] font-medium text-muted backdrop-blur">
+          <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span></span>
+          Dispatch open now · 24/7
+        </p>
+        <h1 class="h-display mt-6">Moncton taxi,<br /><span class="relative whitespace-nowrap">any hour<svg class="absolute -bottom-2 left-0 h-3 w-full text-brand" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 9c50-6 146-8 196-4" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span> of the day.</h1>
+        <p class="lede mt-7 max-w-xl">Local rides, airport transfers and long-distance trips across New Brunswick, Nova Scotia and PEI. One call or text and a driver is on the way.</p>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href={tel} class="btn-primary !px-7 !py-3.5"><Icon name="phone" class="h-4 w-4" />Call {business.phoneDisplay}</a>
+          <a href={sms} class="btn-ghost !px-7 !py-3.5"><Icon name="chat" class="h-4 w-4" />Text to book</a>
+        </div>
+        <ul class="mt-10 grid max-w-lg grid-cols-2 gap-x-6 gap-y-3 text-[14px] text-muted">
+          {['24/7 dispatch', 'Professional local drivers', 'Sedans, SUVs & vans', 'No hidden fees'].map((t) => (
+            <li class="flex items-center gap-2"><svg class="h-4 w-4 text-ink" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L8 12.6l7.3-7.3a1 1 0 0 1 1.4 0Z" clip-rule="evenodd"/></svg>{t}</li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- 2. Quick booking panel -->
+      <div class="rounded-[2rem] border border-line bg-white/90 p-3 shadow-[0_30px_80px_-20px_rgba(11,15,25,0.18)] backdrop-blur">
+        <div class="px-4 pb-3 pt-4">
+          <p class="text-[13px] font-medium text-muted">Book a ride</p>
+          <h2 class="mt-1 text-xl font-semibold tracking-tight">Where are you headed?</h2>
+        </div>
+        <ul class="space-y-1">
+          {[
+            { href: '/book-online', icon: 'car', t: 'Around town', d: 'Moncton, Dieppe & Riverview' },
+            { href: '/moncton-airport-taxi', icon: 'plane', t: 'To or from the airport', d: 'YQM · Halifax YHZ · Saint John YSJ' },
+            { href: FARE_CALCULATOR_URL, icon: 'route', t: 'Out of town', d: 'Instant long-distance quote' },
+          ].map((o) => (
+            <li>
+              <a href={o.href} class="group flex items-center gap-4 rounded-2xl p-4 transition-colors hover:bg-canvas">
+                <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-soft text-ink"><Icon name={o.icon} class="h-5 w-5" /></span>
+                <span class="flex-1"><span class="block font-medium">{o.t}</span><span class="text-[14px] text-muted">{o.d}</span></span>
+                <Icon name="arrow" class="h-4 w-4 text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-ink" />
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div class="mt-2 flex items-center justify-between rounded-2xl bg-canvas px-4 py-3 text-[14px]">
+          <span class="text-muted">Prefer WhatsApp?</span>
+          <a href={business.whatsapp} class="font-medium underline decoration-brand decoration-2 underline-offset-4" rel="noopener">Message us</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats strip -->
+    <div class="container-x relative">
+      <dl class="grid grid-cols-2 divide-line overflow-hidden rounded-3xl border border-line bg-white sm:grid-cols-4 sm:divide-x">
+        {[
+          ['24/7', 'Dispatch, every day'],
+          ['3', 'Airports served'],
+          ['3', 'Provinces covered'],
+          ['8', 'Ride & delivery services'],
+        ].map(([n, l]) => (
+          <div class="p-6 sm:p-8">
+            <dt class="text-[13px] text-muted">{l}</dt>
+            <dd class="mt-1 text-3xl font-semibold tracking-tight sm:text-4xl">{n}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- 3. Services -->
+  <section class="section">
+    <div class="container-x">
+      <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div class="max-w-2xl">
+          <p class="eyebrow">Services</p>
+          <h2 class="h-section mt-3">Every ride and delivery, one dispatch.</h2>
+        </div>
+        <p class="max-w-sm text-muted">From a quick trip across town to a parcel that has to be in Halifax today.</p>
+      </div>
+      <ul class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {serviceCards.map((s, i) => (
+          <li class:list={[[0, 5, 6, 7].includes(i) ? 'lg:col-span-2' : '']}>
+            <a href={s.href} class:list={['group flex h-full flex-col rounded-3xl border border-line p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_rgba(11,15,25,0.2)]', i === 0 ? 'bg-ink text-white border-ink' : 'bg-white']}>
+              <span class:list={['flex h-11 w-11 items-center justify-center rounded-2xl', i === 0 ? 'bg-brand text-ink' : 'bg-canvas']}><Icon name={s.icon} class="h-5 w-5" /></span>
+              <h3 class="mt-8 text-lg font-semibold tracking-tight">{s.name}</h3>
+              <p class:list={['mt-2 flex-1 text-[15px] leading-relaxed', i === 0 ? 'text-white/60' : 'text-muted']}>{s.short}</p>
+              <span class="mt-6 inline-flex items-center gap-1.5 text-[14px] font-medium">Learn more <Icon name="arrow" class="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. Why choose us -->
+  <section class="section bg-canvas">
+    <div class="container-x">
+      <div class="max-w-2xl">
+        <p class="eyebrow">Why us</p>
+        <h2 class="h-section mt-3">Why Moncton rides with us.</h2>
+      </div>
+      <ul class="mt-14 grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+        {whyUs.map((w, i) => (
+          <li class="bg-white p-8">
+            <span class="text-[13px] font-medium text-muted">0{i + 1}</span>
+            <Icon name={w.icon} class="mt-6 h-6 w-6" />
+            <h3 class="mt-4 text-lg font-semibold tracking-tight">{w.title}</h3>
+            <p class="mt-2 text-[15px] leading-relaxed text-muted">{w.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. Airport -->
+  <section class="section">
+    <div class="container-x grid gap-14 lg:grid-cols-2 lg:items-center">
+      <div>
+        <p class="eyebrow">Airport transfers</p>
+        <h2 class="h-section mt-3">On time for every flight.</h2>
+        <p class="lede mt-6">Pickups and drop-offs at Greater Moncton Roméo LeBlanc International around the clock, plus direct transfers to Halifax and Saint John. Share your flight number and we track your arrival.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="/moncton-airport-taxi" class="btn-primary">Airport taxi details</a>
+          <a href={tel} class="btn-ghost"><Icon name="phone" class="h-4 w-4" />Book a pickup</a>
+        </div>
+      </div>
+      <ul class="space-y-3">
+        {[
+          ['YQM', 'Greater Moncton Roméo LeBlanc Intl.', 'Minutes from downtown'],
+          ['YHZ', 'Halifax Stanfield International', 'Long-distance transfer'],
+          ['YSJ', 'Saint John Airport', 'Long-distance transfer'],
+        ].map(([code, name, note]) => (
+          <li class="flex items-center gap-5 rounded-3xl border border-line p-5 transition-colors hover:bg-canvas">
+            <span class="flex h-14 w-16 items-center justify-center rounded-2xl bg-ink font-mono text-[15px] font-semibold tracking-wider text-brand">{code}</span>
+            <span class="flex-1"><span class="block font-medium">{name}</span><span class="text-[14px] text-muted">{note}</span></span>
+            <Icon name="plane" class="h-5 w-5 text-muted" />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6. Long-distance routes -->
+  <section class="section bg-canvas">
+    <div class="container-x">
+      <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div class="max-w-2xl">
+          <p class="eyebrow">Long distance</p>
+          <h2 class="h-section mt-3">Popular trips from Moncton.</h2>
+          <p class="lede mt-4">Door to door, one way or round trip. Get an exact price for your addresses in seconds.</p>
+        </div>
+        <a href={FARE_CALCULATOR_URL} class="btn-accent shrink-0">Get an instant quote <Icon name="arrow" class="h-4 w-4" /></a>
+      </div>
+      <ul class="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {routes.map((r) => (
+          <li>
+            <a href={r.href ?? FARE_CALCULATOR_URL} class="group flex h-full items-center justify-between gap-4 rounded-3xl border border-line bg-white p-6 transition-all hover:-translate-y-0.5 hover:shadow-[0_20px_50px_-24px_rgba(11,15,25,0.25)]">
+              <span>
+                <span class="block text-[13px] text-muted">Moncton →</span>
+                <span class="mt-0.5 block text-lg font-semibold tracking-tight">{r.to}</span>
+                <span class="block text-[14px] text-muted">{r.note}</span>
+              </span>
+              <span class="rounded-full bg-canvas px-3 py-1 text-[13px] font-medium">{r.time}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-6 text-[13px] text-muted">Drive times are approximate. See <a href="/out-of-town-rates" class="underline underline-offset-4 hover:text-ink">out of town rates</a> or <a href="/long-distance-taxi" class="underline underline-offset-4 hover:text-ink">long-distance taxi</a>.</p>
+    </div>
+  </section>
+
+  <!-- 7. Fleet -->
+  <section class="section">
+    <div class="container-x">
+      <div class="max-w-2xl">
+        <p class="eyebrow">Fleet</p>
+        <h2 class="h-section mt-3">The right vehicle for every trip.</h2>
+        <p class="lede mt-4">Clean, well-maintained vehicles with licensed professional drivers. Tell us your group size and luggage when you book.</p>
+      </div>
+      <ul class="mt-14 grid gap-4 sm:grid-cols-3">
+        {[
+          ['Sedan', 'Up to 4 passengers', 'Everyday rides, commutes and airport runs for solo travellers and couples.'],
+          ['SUV', 'Extra room & comfort', 'More legroom and luggage space, great for winter roads and families.'],
+          ['Van', 'Groups & big luggage', 'Wedding parties, teams, families with strollers and long trips.'],
+        ].map(([name, cap, text]) => (
+          <li class="card p-8">
+            <div class="flex items-center justify-between">
+              <h3 class="text-2xl font-semibold tracking-tight">{name}</h3>
+              <Icon name={name === 'Van' ? 'users' : 'car'} class="h-6 w-6 text-muted" />
+            </div>
+            <p class="mt-1 text-[14px] font-medium text-brand-dark">{cap}</p>
+            <p class="mt-4 text-[15px] leading-relaxed text-muted">{text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8. Service area -->
+  <section class="section bg-canvas">
+    <div class="container-x grid gap-14 lg:grid-cols-2 lg:items-center">
+      <div>
+        <p class="eyebrow">Service area</p>
+        <h2 class="h-section mt-3">Greater Moncton and beyond.</h2>
+        <p class="lede mt-5">Based downtown at {addressOneLine}. We cover the whole metro area and drive anywhere in the Maritimes.</p>
+        <ul class="mt-8 flex flex-wrap gap-2">
+          <li class="rounded-full bg-ink px-4 py-2 text-[14px] font-medium text-white">Moncton</li>
+          {areas.map((a) => (
+            <li><a href={`/${a.slug}`} class="block rounded-full border border-line bg-white px-4 py-2 text-[14px] font-medium transition-colors hover:border-ink">{a.city} ↗</a></li>
+          ))}
+          {['Saint John', 'Fredericton', 'Halifax', 'Charlottetown'].map((c) => (
+            <li class="rounded-full border border-line px-4 py-2 text-[14px] text-muted">{c}</li>
+          ))}
+        </ul>
+      </div>
+      <a href={business.mapsUrl} rel="noopener" class="group relative block overflow-hidden rounded-[2rem] border border-line bg-white">
+        <div class="relative aspect-[4/3] bg-[linear-gradient(to_right,#0b0f190d_1px,transparent_1px),linear-gradient(to_bottom,#0b0f190d_1px,transparent_1px)] bg-[size:32px_32px]">
+          <svg class="absolute inset-0 h-full w-full" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M-10 210 C 80 170, 140 230, 220 180 S 360 120, 420 140" stroke="#cbd5e1" stroke-width="18" fill="none"/><path d="M60 -10 C 90 90, 150 120, 170 310" stroke="#e2e8f0" stroke-width="10" fill="none"/><path d="M260 -10 L 300 310" stroke="#e2e8f0" stroke-width="8" fill="none"/></svg>
+          <span class="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center">
+            <span class="flex h-14 w-14 items-center justify-center rounded-full bg-ink text-brand shadow-xl ring-8 ring-brand/30 transition-transform group-hover:scale-110"><Icon name="pin" class="h-6 w-6" /></span>
+          </span>
+        </div>
+        <div class="flex items-center justify-between border-t border-line p-6">
+          <span><span class="block font-semibold">{business.name}</span><span class="text-[14px] text-muted">{addressOneLine}</span></span>
+          <span class="text-[14px] font-medium">Directions ↗</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 9. Reviews (renders only once real Google reviews are added in src/data/home.ts) -->
+  {reviews.length > 0 && (
+    <section class="section">
+      <div class="container-x">
+        <p class="eyebrow">Reviews</p>
+        <h2 class="h-section mt-3">What riders say.</h2>
+        <ul class="mt-14 grid gap-4 md:grid-cols-3">
+          {reviews.map((r) => (
+            <li class="card p-8">
+              <p class="text-brand-dark" aria-label={`${r.rating} out of 5 stars`}>{'★'.repeat(r.rating)}</p>
+              <blockquote class="mt-4 text-[17px] leading-relaxed">“{r.text}”</blockquote>
+              <p class="mt-6 text-[14px] text-muted">{r.name} · Google review</p>
+            </li>
+          ))}
+        </ul>
+        {GOOGLE_REVIEWS_URL && <a href={GOOGLE_REVIEWS_URL} class="btn-ghost mt-8" rel="noopener">Read more on Google</a>}
+      </div>
+    </section>
+  )}
+
+  <!-- 10. FAQ -->
+  <Faq faqs={homeFaqs} heading="Moncton taxi FAQs" />
+
+  <!-- 11. Corporate & careers -->
+  <section class="pb-4">
+    <div class="container-x grid gap-4 md:grid-cols-2">
+      <a href="/corporate-account" class="group rounded-[2rem] bg-brand-soft p-10 transition-colors hover:bg-brand/30">
+        <Icon name="briefcase" class="h-7 w-7" />
+        <h2 class="mt-10 text-2xl font-semibold tracking-tight">Corporate accounts</h2>
+        <p class="mt-2 max-w-sm text-muted">One monthly bill for staff rides, client pickups and airport transfers.</p>
+        <span class="mt-6 inline-flex items-center gap-1.5 font-medium">Open an account <Icon name="arrow" class="h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
+      </a>
+      <a href="/join-our-team" class="group rounded-[2rem] bg-canvas p-10 transition-colors hover:bg-line/60">
+        <Icon name="users" class="h-7 w-7" />
+        <h2 class="mt-10 text-2xl font-semibold tracking-tight">Drive with us</h2>
+        <p class="mt-2 max-w-sm text-muted">Know Moncton and love to drive? Find out about driving with Taxi Moncton.</p>
+        <span class="mt-6 inline-flex items-center gap-1.5 font-medium">Join our team <Icon name="arrow" class="h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 12. Final CTA -->
+  <CtaBand />
+</Base>

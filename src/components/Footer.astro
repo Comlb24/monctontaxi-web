@@ -1,0 +1,60 @@
+---
+import Logo from './Logo.astro';
+import { business, tel, sms, mailto, addressOneLine, FARE_CALCULATOR_URL } from '../data/business';
+import { services } from '../data/services';
+import { areas } from '../data/areas';
+import { legalNav } from '../data/nav';
+const year = new Date().getFullYear();
+const link = 'text-muted transition-colors hover:text-ink';
+---
+<footer class="border-t border-line bg-canvas">
+  <div class="container-x grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <div>
+      <a href="/" class="flex items-center gap-2.5">
+        <Logo />
+      </a>
+      <address class="mt-5 space-y-1 text-[15px] not-italic leading-relaxed text-muted">
+        <span class="block">{business.address.street}</span>
+        <span class="block">{business.address.city}, {business.address.region} {business.address.postalCode}</span>
+        <a href={tel} class="block pt-2 text-lg font-semibold text-ink">{business.phoneDisplay}</a>
+        <a href={mailto} class={`block ${link}`}>{business.email}</a>
+      </address>
+      <p class="mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-1 text-[13px] text-muted"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>{business.hoursText}</p>
+    </div>
+    <div>
+      <p class="text-[13px] font-semibold uppercase tracking-[0.14em]">Services</p>
+      <ul class="mt-4 space-y-2.5 text-[15px]">
+        {services.map((s) => <li><a href={`/${s.slug}`} class={link}>{s.name}</a></li>)}
+        <li><a href="/out-of-town-rates" class={link}>Out of Town Rates</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="text-[13px] font-semibold uppercase tracking-[0.14em]">Areas</p>
+      <ul class="mt-4 space-y-2.5 text-[15px]">
+        <li><a href="/" class={link}>Moncton</a></li>
+        {areas.map((a) => <li><a href={`/${a.slug}`} class={link}>Taxi {a.city}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <p class="text-[13px] font-semibold uppercase tracking-[0.14em]">Company</p>
+      <ul class="mt-4 space-y-2.5 text-[15px]">
+        <li><a href="/about" class={link}>About</a></li>
+        <li><a href="/contact" class={link}>Contact</a></li>
+        <li><a href="/join-our-team" class={link}>Join Our Team</a></li>
+        <li><a href="/book-online" class={link}>Book a Ride</a></li>
+        <li><a href={FARE_CALCULATOR_URL} class={link}>Fare Calculator</a></li>
+        <li><a href={sms} class={link}>Text to Book</a></li>
+        <li><a href={business.whatsapp} class={link} rel="noopener">WhatsApp</a></li>
+        <li><a href={business.socials.facebook} class={link} rel="noopener">Facebook</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-line">
+    <div class="container-x flex flex-col gap-3 py-6 text-[13px] text-muted sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {business.name} · {addressOneLine}</p>
+      <ul class="flex flex-wrap gap-5">
+        {legalNav.map((l) => <li><a href={l.href} class="hover:text-ink">{l.label}</a></li>)}
+      </ul>
+    </div>
+  </div>
+</footer>
