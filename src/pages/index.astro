@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import Faq from '../components/Faq.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { business, tel, sms, addressOneLine, FARE_CALCULATOR_URL, BOOK_URL, BOOK_LABEL } from '../data/business';
+import { business, tel, sms, addressOneLine, FARE_CALCULATOR_URL, BOOK_URL } from '../data/business';
 import { services, localTaxi } from '../data/services';
 import { areas } from '../data/areas';
 import { money } from '../data/routes';
@@ -39,7 +39,6 @@ const whyUs = [
         <h1 class="h-display mt-6">Moncton taxi,<br /><span class="relative whitespace-nowrap">any hour<svg class="absolute -bottom-2 left-0 h-3 w-full text-brand" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 9c50-6 146-8 196-4" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span> of the day.</h1>
         <p class="lede mt-7 max-w-xl">Local rides, airport transfers and long-distance trips across New Brunswick, Nova Scotia and PEI. Get an instant fare and book online in seconds — or call or text dispatch.</p>
         <div class="mt-9 flex flex-wrap gap-3">
-          <a href={BOOK_URL} rel="noopener" class="btn-primary !px-7 !py-3.5">{BOOK_LABEL}<Icon name="arrow" class="h-4 w-4" /></a>
           <a href={tel} class="btn-ghost !px-7 !py-3.5"><Icon name="phone" class="h-4 w-4" />Call {business.phoneDisplay}</a>
           <a href={sms} class="btn-ghost !px-7 !py-3.5"><Icon name="chat" class="h-4 w-4" />Text</a>
         </div>
@@ -71,7 +70,7 @@ const whyUs = [
             </li>
           ))}
         </ul>
-        <a href={BOOK_URL} rel="noopener" class="btn-primary mt-2 w-full !py-3.5">Calculate fare & book<Icon name="arrow" class="h-4 w-4" /></a>
+        <a href={BOOK_URL} rel="noopener" class="btn-primary mt-2 w-full !py-3.5">Get a quote<Icon name="arrow" class="h-4 w-4" /></a>
         <div class="mt-2 flex items-center justify-between rounded-2xl bg-canvas px-4 py-3 text-[14px]">
           <span class="text-muted">Prefer WhatsApp?</span>
           <a href={business.whatsapp} class="font-medium underline decoration-brand decoration-2 underline-offset-4" rel="noopener">Message us</a>

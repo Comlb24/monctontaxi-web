@@ -37,7 +37,7 @@ export const ui = {
     faqHelp: 'Can’t find your answer? Call or text dispatch any time.',
   },
   fr: {
-    book: 'Tarif et réservation',
+    book: 'Réserver',
     call: 'Appeler le',
     callNow: 'Appeler',
     textUs: 'Texto',
