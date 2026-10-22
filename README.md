@@ -18,7 +18,7 @@ npm run check:nap  # verify NAP is consistent in every built page
 - `src/pages/[slug].astro`: renders every service and area page from the data files.
 
 ## Before launch
-- [ ] Confirm the exact Google Business Profile name matches `business.name`.
+- [x] Confirm the exact Google Business Profile name matches `business.name` ("Taxi Moncton Long Distance", E1C 2A1).
 - [ ] Confirm the `geo` coordinates in `business.ts` against the GBP pin.
 - [ ] Add real Google reviews and the GBP URL to `src/data/home.ts` (add the GBP URL to `business.socials` too).
 - [ ] Add real fleet photos and a logo.

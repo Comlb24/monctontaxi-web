@@ -9,8 +9,8 @@ export const BOOK_LABEL = 'Get fare & book';
 
 export const business = {
   // Must match the Google Business Profile listing name exactly.
-  name: 'Taxi Moncton',
-  legalName: 'Taxi Moncton',
+  name: 'Taxi Moncton Long Distance',
+  legalName: 'Taxi Moncton Long Distance',
   phoneDisplay: '(506) 797-0087',
   phoneE164: '+15067970087',
   email: 'info@monctontaxi.com',
@@ -19,7 +19,7 @@ export const business = {
     city: 'Moncton',
     region: 'NB',
     regionName: 'New Brunswick',
-    postalCode: 'E1C 1B8',
+    postalCode: 'E1C 2A1',
     country: 'CA',
   },
   // Approximate coordinates for 165 Main St — confirm against the GBP pin before launch.
@@ -28,7 +28,7 @@ export const business = {
   openingHoursSchema: 'Mo-Su 00:00-23:59',
   priceRange: '$$',
   whatsapp: 'https://wa.me/message/FXJHX2CUK3W2A1',
-  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Taxi+Moncton+165+Main+St+Moncton+NB+E1C+1B8',
+  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Taxi+Moncton+Long+Distance+165+Main+St+Moncton+NB+E1C+2A1',
   socials: {
     facebook: 'https://www.facebook.com/supercab0800',
   },

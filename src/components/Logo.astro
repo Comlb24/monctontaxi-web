@@ -2,6 +2,7 @@
 import { business } from '../data/business';
 interface Props { tone?: 'dark' | 'light'; class?: string }
 const { tone = 'dark', class: cls = '' } = Astro.props;
+const [shortName, nameSuffix] = business.name.split(/ (?=Long Distance$)/);
 ---
 <span class:list={['inline-flex items-center gap-3', cls]}>
   <svg class="h-9 w-9 shrink-0" viewBox="0 0 64 64" aria-hidden="true">
@@ -13,7 +14,8 @@ const { tone = 'dark', class: cls = '' } = Astro.props;
     <rect x="8" y="50" width="48" height="2" rx="1" fill="#c9a45c" />
   </svg>
   <span class="flex flex-col leading-none">
-    <span class:list={['whitespace-nowrap text-[17px] font-semibold tracking-tight', tone === 'light' ? 'text-white' : 'text-ink']}>{business.name}</span>
-    <span class="mt-1 whitespace-nowrap text-[9.5px] font-semibold uppercase tracking-[0.24em] text-brand-dark">Black SUV · Chauffeur</span>
+    <!-- Full GBP name from sm up; on phones the "Long Distance" part drops to the second line so the header fits. -->
+    <span class:list={['whitespace-nowrap text-[17px] font-semibold tracking-tight', tone === 'light' ? 'text-white' : 'text-ink']}><span class="sm:hidden">{shortName}</span><span class="hidden sm:inline">{business.name}</span></span>
+    <span class="mt-1 whitespace-nowrap text-[9.5px] font-semibold uppercase tracking-[0.24em] text-brand-dark"><span class="sm:hidden">{nameSuffix}</span><span class="hidden sm:inline">Black SUV · Chauffeur</span></span>
   </span>
 </span>
