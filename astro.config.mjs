@@ -10,7 +10,11 @@ export default defineConfig({
   trailingSlash: 'never',
   build: { format: 'directory' },
   integrations: [
-    sitemap({ filter: (page) => !noindex.some((p) => page.replace(/\/$/, '').endsWith(p)) }),
+    sitemap({
+      filter: (page) => !noindex.some((p) => page.replace(/\/$/, '').endsWith(p)),
+      // Every page is rebuilt from shared data on each deploy, so the build time is its last-modified date.
+      lastmod: new Date(),
+    }),
   ],
   vite: { plugins: [tailwindcss()] },
 });

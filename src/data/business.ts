@@ -22,14 +22,16 @@ export const business = {
     postalCode: 'E1C 2A1',
     country: 'CA',
   },
-  // Approximate coordinates for 165 Main St — confirm against the GBP pin before launch.
-  geo: { lat: 46.0878, lng: -64.7782 },
+  // Taken from the Google Business Profile pin (Oct 2026).
+  geo: { lat: 46.0928155, lng: -64.765542 },
   hoursText: 'Open 24 hours, 7 days a week',
   openingHoursSchema: 'Mo-Su 00:00-23:59',
   priceRange: '$$',
   whatsapp: 'https://wa.me/message/FXJHX2CUK3W2A1',
-  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Taxi+Moncton+Long+Distance+165+Main+St+Moncton+NB+E1C+2A1',
+  // Permanent Google Business Profile link (place CID). Used for directions and in schema sameAs.
+  mapsUrl: 'https://www.google.com/maps?cid=14268146910165658224',
   socials: {
+    google: 'https://www.google.com/maps?cid=14268146910165658224',
     facebook: 'https://www.facebook.com/supercab0800',
   },
   fleet: ['Sedans', 'SUVs', 'Vans'],

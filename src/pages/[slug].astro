@@ -1,6 +1,6 @@
 ---
-// Renders every service page (/moncton-airport-taxi, …) and city page (/taxi-dieppe, …)
-// from src/data/services.ts and src/data/areas.ts.
+// Renders every service page (/moncton-airport-taxi, …), city page (/taxi-dieppe, …) and
+// long-distance route page (/moncton-to-halifax-taxi, …) from src/data/services.ts, areas.ts and routes.ts.
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Faq from '../components/Faq.astro';
@@ -8,17 +8,19 @@ import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
 import { services, getService, type Service } from '../data/services';
 import { areas, type Area } from '../data/areas';
-import { business, BOOK_URL, BOOK_LABEL } from '../data/business';
+import { longDistanceRoutes, fareFor, money, RATES, type Route } from '../data/routes';
+import { business, BOOK_URL, BOOK_LABEL, SITE_URL } from '../data/business';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '../data/schema';
 
 export function getStaticPaths() {
   return [
     ...services.map((s) => ({ params: { slug: s.slug }, props: { kind: 'service' as const, service: s } })),
     ...areas.map((a) => ({ params: { slug: a.slug }, props: { kind: 'area' as const, area: a } })),
+    ...longDistanceRoutes.map((r) => ({ params: { slug: r.slug }, props: { kind: 'route' as const, route: r } })),
   ];
 }
 
-type Props = { kind: 'service'; service: Service } | { kind: 'area'; area: Area };
+type Props = { kind: 'service'; service: Service } | { kind: 'area'; area: Area } | { kind: 'route'; route: Route };
 const props = Astro.props;
 const path = `/${Astro.params.slug}`;
 
@@ -27,6 +29,9 @@ let faqs: Service['faqs'] = [];
 if (props.kind === 'service') {
   ({ title, description, h1, lead, faqs } = props.service);
   crumbs = [{ name: 'Home', href: '/' }, { name: 'Services', href: '/services' }, { name: props.service.name, href: path }];
+} else if (props.kind === 'route') {
+  ({ title, description, h1, lead, faqs } = props.route);
+  crumbs = [{ name: 'Home', href: '/' }, { name: 'Long Distance Taxi', href: '/long-distance-taxi' }, { name: `Moncton to ${props.route.city}`, href: path }];
 } else {
   const a = props.area;
   ({ title, description, h1 } = a);
@@ -37,27 +42,93 @@ if (props.kind === 'service') {
 
 const schema: object[] = [breadcrumbSchema(crumbs), faqSchema(faqs)];
 if (props.kind === 'service') schema.push(serviceSchema(props.service.name, description, path));
-else schema.push(serviceSchema(`Taxi service in ${props.area.city}`, description, path, props.area.city));
+else if (props.kind === 'area') schema.push(serviceSchema(`Taxi service in ${props.area.city}`, description, path, props.area.city));
+else {
+  const r = props.route;
+  const offer = (name: string, km: number) => ({ '@type': 'Offer', name, price: fareFor(km).toFixed(2), priceCurrency: RATES.currency, url: `${SITE_URL}${path}` });
+  schema.push({
+    ...serviceSchema(`Moncton to ${r.city} taxi`, description, path, r.city),
+    offers: [offer(`One-way taxi, Moncton to ${r.city}`, r.km), ...(r.airport ? [offer(`One-way taxi, Moncton to ${r.airport.name} (${r.airport.code})`, r.airport.km)] : [])],
+  });
+}
 
 const related = props.kind === 'service' ? props.service.related.map(getService) : services.slice(0, 3);
 const otherAreas = areas.filter((a) => props.kind !== 'area' || a.slug !== props.area.slug);
+const otherRoutes = longDistanceRoutes.filter((r) => props.kind !== 'route' || r.slug !== props.route.slug);
+const fareRows = props.kind === 'route'
+  ? [
+      { to: `${props.route.city}, ${props.route.province}`, km: props.route.km },
+      ...(props.route.airport ? [{ to: `${props.route.airport.name} (${props.route.airport.code})`, km: props.route.airport.km }] : []),
+    ]
+  : [];
 ---
 <Base title={title} description={description} schema={schema}>
   <PageHero h1={h1} lead={lead} crumbs={crumbs}>
     {props.kind === 'area' && <p class="mt-6 inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-1.5 text-[13px] font-medium text-muted"><Icon name="pin" class="h-5 w-5" />{props.area.distance}</p>}
+    {props.kind === 'route' && (
+      <p class="mt-6 inline-flex flex-wrap items-center gap-x-3 gap-y-1 rounded-full border border-line bg-white px-3 py-1.5 text-[13px] font-medium text-muted">
+        <span class="inline-flex items-center gap-2"><Icon name="route" class="h-5 w-5" />{Math.round(props.route.km)} km · {props.route.time}</span>
+        <span class="text-ink">One way {money(fareFor(props.route.km))}</span>
+      </p>
+    )}
   </PageHero>
 
   <section class="py-16 sm:py-20">
     <div class="container-x grid gap-14 lg:grid-cols-[1.8fr_1fr]">
-      <article class="prose-x">
-        {props.kind === 'service' ? (
-          props.service.sections.map((s) => (
+      <article class="prose-x min-w-0">
+        {props.kind === 'route' && (
+          <Fragment>
+            <h2>Moncton to {props.route.city} taxi fare</h2>
+            <div class="mb-5 overflow-x-auto rounded-3xl border border-line">
+              <table class="w-full min-w-[440px] text-left text-[15px]">
+                <thead class="bg-canvas text-[13px] text-muted">
+                  <tr><th class="p-4 font-medium">From downtown Moncton to</th><th class="p-4 font-medium">Distance</th><th class="p-4 font-medium">One way</th><th class="p-4 font-medium">Return</th></tr>
+                </thead>
+                <tbody class="divide-y divide-line">
+                  {fareRows.map((row) => (
+                    <tr>
+                      <td class="p-4 font-medium text-ink">{row.to}</td>
+                      <td class="p-4 text-muted">{Math.round(row.km)} km</td>
+                      <td class="p-4 font-semibold text-ink">{money(fareFor(row.km))}</td>
+                      <td class="p-4 text-muted">{money(fareFor(row.km) * 2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p>Prices come from our <a href={BOOK_URL} rel="noopener">online fare calculator</a>: {money(RATES.base)} plus {money(RATES.perKm)} per km of driving distance, with a {money(RATES.minimum)} minimum. The fare is per vehicle, not per person. Your exact price depends on your pickup and drop-off addresses; estimates can vary with tolls or route changes.</p>
+            <p><a href={BOOK_URL} rel="noopener">See your exact fare and book →</a></p>
+          </Fragment>
+        )}
+        {props.kind === 'route' ? (
+          props.route.sections.map((s) => (
             <Fragment>
               <h2>{s.heading}</h2>
               <p>{s.body}</p>
               {s.bullets && <ul>{s.bullets.map((b) => <li>{b}</li>)}</ul>}
             </Fragment>
           ))
+        ) : props.kind === 'service' ? (
+          <Fragment>
+            {props.service.sections.map((s) => (
+              <Fragment>
+                <h2>{s.heading}</h2>
+                <p>{s.body}</p>
+                {s.bullets && <ul>{s.bullets.map((b) => <li>{b}</li>)}</ul>}
+              </Fragment>
+            ))}
+            {['long-distance-taxi', 'moncton-airport-taxi'].includes(props.service.slug) && (
+              <Fragment>
+                <h2>{props.service.slug === 'long-distance-taxi' ? 'Long-distance fares from Moncton' : 'Out-of-town airport fares'}</h2>
+                <ul>
+                  {longDistanceRoutes.map((r) => props.service.slug === 'long-distance-taxi'
+                    ? <li><a href={`/${r.slug}`}>Moncton to {r.city} taxi</a> — {money(fareFor(r.km))} one way ({Math.round(r.km)} km)</li>
+                    : r.airport && <li><a href={`/${r.slug}`}>{r.airport.name} ({r.airport.code})</a> — {money(fareFor(r.airport.km))} one way from downtown Moncton</li>)}
+                </ul>
+                <p>Fares from downtown Moncton, per vehicle. See all <a href="/out-of-town-rates">out-of-town rates</a>.</p>
+              </Fragment>
+            )}
+          </Fragment>
         ) : (
           <Fragment>
             <h2>Why {props.area.city} riders choose {business.name}</h2>
@@ -88,8 +159,18 @@ const otherAreas = areas.filter((a) => props.kind !== 'area' || a.slug !== props
           <a href={business.whatsapp} class="btn-outline relative mt-2 w-full" rel="noopener">WhatsApp</a>
         </div>
         <div class="rounded-[2rem] border border-line p-7">
-          <p class="text-[13px] font-semibold uppercase tracking-[0.14em]">Related services</p>
-          <ul class="mt-4 space-y-2.5 text-[15px]">{related.map((r) => <li><a href={`/${r.slug}`} class="text-muted hover:text-ink">{r.name} →</a></li>)}</ul>
+          {props.kind === 'route' ? (
+            <Fragment>
+              <p class="text-[13px] font-semibold uppercase tracking-[0.14em]">Other trips from Moncton</p>
+              <ul class="mt-4 space-y-2.5 text-[15px]">{otherRoutes.map((r) => <li><a href={`/${r.slug}`} class="flex justify-between gap-3 text-muted hover:text-ink"><span>Moncton to {r.city} →</span><span>{money(fareFor(r.km))}</span></a></li>)}</ul>
+              <p class="mt-4 text-[14px]"><a href="/out-of-town-rates" class="text-muted underline underline-offset-4 hover:text-ink">All out-of-town rates</a></p>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <p class="text-[13px] font-semibold uppercase tracking-[0.14em]">Related services</p>
+              <ul class="mt-4 space-y-2.5 text-[15px]">{related.map((r) => <li><a href={`/${r.slug}`} class="text-muted hover:text-ink">{r.name} →</a></li>)}</ul>
+            </Fragment>
+          )}
           <p class="mt-7 text-[13px] font-semibold uppercase tracking-[0.14em]">Areas we serve</p>
           <ul class="mt-4 flex flex-wrap gap-2 text-[14px]">{otherAreas.map((a) => <li><a href={`/${a.slug}`} class="block rounded-full border border-line px-3 py-1 hover:border-ink">{a.city}</a></li>)}</ul>
         </div>

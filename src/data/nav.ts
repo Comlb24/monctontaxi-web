@@ -2,7 +2,7 @@ export const mainNav = [
   { label: 'Services', href: '/services' },
   { label: 'Airport Taxi', href: '/moncton-airport-taxi' },
   { label: 'Long Distance', href: '/long-distance-taxi' },
-  { label: 'Out of Town Rates', href: '/out-of-town-rates' },
+  { label: 'Rates', href: '/out-of-town-rates' },
   { label: 'Corporate', href: '/corporate-account' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },

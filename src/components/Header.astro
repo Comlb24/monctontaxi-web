@@ -27,7 +27,7 @@ const alternate = alternateOf(current);
     </nav>
     <div class="flex items-center gap-2">
       {alternate && <a href={alternate.href} hreflang={alternate.lang === 'fr' ? 'fr-CA' : 'en-CA'} lang={alternate.lang} class="whitespace-nowrap rounded-full px-2 py-1.5 text-sm font-medium text-muted hover:text-ink"><span class="sm:hidden">{alternate.lang.toUpperCase()}</span><span class="hidden sm:inline">{t.switchLabel}</span></a>}
-      <a href={tel} class="hidden items-center gap-1.5 whitespace-nowrap px-2 text-sm font-medium text-muted hover:text-ink lg:inline-flex"><Icon name="phone" class="h-4 w-4" />{business.phoneDisplay}</a>
+      <a href={tel} class="hidden items-center gap-1.5 whitespace-nowrap px-2 text-sm font-medium text-muted hover:text-ink lg:inline-flex xl:hidden"><Icon name="phone" class="h-4 w-4" />{business.phoneDisplay}</a>
       <a href={BOOK_URL} rel="noopener" class="btn-primary hidden whitespace-nowrap !px-4 !py-2 !text-sm sm:inline-flex">{t.book}<Icon name="arrow" class="h-4 w-4" /></a>
       <details class="group relative xl:hidden">
         <summary class="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full border border-line" aria-label={t.openMenu}><Icon name="menu" class="h-5 w-5" /></summary>

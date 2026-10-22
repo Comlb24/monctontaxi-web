@@ -1,5 +1,7 @@
 ---
 import '@fontsource-variable/inter';
+// Same hashed file the @font-face rule uses; preloading it lets text render in Inter without a late swap.
+import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -41,7 +43,9 @@ const frHref = lang === 'fr' ? path : alternate?.href;
         <link rel="alternate" hreflang="x-default" href={url(enHref!)} />
       </Fragment>
     )}
+    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/logo.png" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="geo.region" content="CA-NB" />
     <meta name="geo.placename" content="Moncton" />

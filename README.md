@@ -13,13 +13,15 @@ npm run check:nap  # verify NAP is consistent in every built page
 - `src/data/business.ts`: **the only place** name, address, phone, email and hours are defined.
 - `src/data/services.ts`: service pages (`/moncton-airport-taxi`, `/long-distance-taxi`, …).
 - `src/data/areas.ts`: city pages (`/taxi-dieppe`, `/taxi-riverview`, …).
+- `src/data/routes.ts`: long-distance route pages (`/moncton-to-halifax-taxi`, …) and the fare-calculator **rates** every price on the site is computed from.
+- `src/data/fr.ts` + `src/data/i18n.ts`: French pages under `/fr` and the English↔French page pairs.
 - `src/data/home.ts`: home-page routes, FAQs and **Google reviews**. The reviews section stays hidden until this has real entries.
 - `src/content/legal/`: legal text carried over from the old site.
 - `src/pages/[slug].astro`: renders every service and area page from the data files.
 
 ## Before launch
 - [x] Confirm the exact Google Business Profile name matches `business.name` ("Taxi Moncton Long Distance", E1C 2A1).
-- [ ] Confirm the `geo` coordinates in `business.ts` against the GBP pin.
+- [x] Confirm the `geo` coordinates in `business.ts` against the GBP pin.
 - [ ] Add real Google reviews and the GBP URL to `src/data/home.ts` (add the GBP URL to `business.socials` too).
 - [ ] Add real fleet photos and a logo.
 - [ ] In Vercel, add `www.monctontaxi.com` and `monctontaxi.com`. The apex domain 301-redirects to www.

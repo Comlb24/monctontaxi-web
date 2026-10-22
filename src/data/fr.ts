@@ -39,7 +39,7 @@ export const frPages: FrPage[] = [
     ],
     faqs: [
       { q: 'Comment réserver un taxi à l’aéroport de Moncton?', a: 'Appelez ou textez le (506) 797-0087 avec votre numéro de vol et le nombre de passagers, ou réservez en ligne avec notre calculateur de tarif. Pour les vols très tôt ou très tard, réservez à l’avance.' },
-      { q: 'Faites-vous des trajets vers l’aéroport de Halifax?', a: 'Oui. Nous conduisons de Moncton et des environs jusqu’à l’aéroport Stanfield de Halifax (YHZ). Utilisez notre calculateur de tarif ou appelez-nous pour un prix.' },
+      { q: 'Faites-vous des trajets vers l’aéroport de Halifax?', a: 'Oui. Nous conduisons de Moncton et des environs jusqu’à l’aéroport Stanfield de Halifax (YHZ). Depuis le centre-ville de Moncton, le tarif est de 380,75 $ l’aller simple. Utilisez notre calculateur de tarif pour votre adresse exacte.' },
       { q: 'Que se passe-t-il si mon vol est retardé?', a: 'Donnez-nous votre numéro de vol à la réservation : nous suivons votre arrivée pour que le chauffeur soit là quand vous atterrissez.' },
     ],
   },
@@ -62,11 +62,12 @@ export const frPages: FrPage[] = [
       },
       {
         heading: 'Connaître le prix avant de partir',
-        body: 'Notre calculateur de tarif en ligne donne un prix instantané pour n’importe quelle adresse. Aucuns frais cachés : le prix est confirmé avec vous avant le départ.',
+        body: 'Le tarif est de 3 $ plus 1,65 $ par kilomètre de route, avec un minimum de 25 $; un aller-retour coûte le double. Notre calculateur de tarif en ligne donne un prix instantané pour n’importe quelle adresse. Aucuns frais cachés.',
+        bullets: ['Moncton → Halifax : 429,62 $', 'Moncton → aéroport de Halifax (YHZ) : 380,75 $', 'Moncton → Fredericton : 301,19 $', 'Moncton → Charlottetown : 272,31 $', 'Moncton → Saint John : 262,03 $', 'Moncton → aéroport de Saint John (YSJ) : 253,99 $'],
       },
     ],
     faqs: [
-      { q: 'Combien coûte un taxi de Moncton à Halifax?', a: 'Le prix dépend de vos adresses exactes de départ et d’arrivée. Entrez-les dans notre calculateur de tarif pour un prix instantané, ou appelez le (506) 797-0087.' },
+      { q: 'Combien coûte un taxi de Moncton à Halifax?', a: 'Depuis le centre-ville de Moncton : 429,62 $ l’aller simple jusqu’à Halifax et 380,75 $ jusqu’à l’aéroport Stanfield. Saint John coûte 262,03 $, Fredericton 301,19 $ et Charlottetown 272,31 $. Le tarif est par véhicule. Entrez vos adresses exactes dans notre calculateur pour votre prix.' },
       { q: 'Puis-je réserver un taxi longue distance à l’avance?', a: 'Oui, et nous le recommandons. Réservez par téléphone, texto, WhatsApp ou courriel en indiquant la date, l’heure et les adresses.' },
       { q: 'Allez-vous à l’Île-du-Prince-Édouard?', a: 'Oui, nous conduisons à Charlottetown et ailleurs à l’Î.-P.-É. par le pont de la Confédération.' },
     ],
