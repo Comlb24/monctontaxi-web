@@ -32,6 +32,9 @@ const frHref = lang === 'fr' ? path : alternate?.href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Google tag (gtag.js); init lives in /gtag-init.js so the CSP needs no 'unsafe-inline' -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-9L6S4YBB0P"></script>
+    <script is:inline src="/gtag-init.js"></script>
     <title>{title}</title>
     <meta name="description" content={description} />
     {path !== '/404' && <link rel="canonical" href={canonical} />}
