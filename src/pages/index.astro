@@ -6,7 +6,7 @@ import CtaBand from '../components/CtaBand.astro';
 import { business, tel, sms, addressOneLine, FARE_CALCULATOR_URL, BOOK_URL, BOOK_LABEL } from '../data/business';
 import { services, localTaxi } from '../data/services';
 import { areas } from '../data/areas';
-import { routes, reviews, GOOGLE_REVIEWS_URL, homeFaqs } from '../data/home';
+import { routes, reviews, GOOGLE_RATING, GOOGLE_REVIEWS_URL, homeFaqs } from '../data/home';
 import { websiteSchema, faqSchema } from '../data/schema';
 
 const title = 'Taxi Moncton | 24/7 Moncton Cab, Airport & Long Distance';
@@ -261,8 +261,13 @@ const whyUs = [
   {reviews.length > 0 && (
     <section class="section">
       <div class="container-x">
-        <p class="eyebrow">Reviews</p>
-        <h2 class="h-section mt-3">What riders say.</h2>
+        <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p class="eyebrow">Reviews</p>
+            <h2 class="h-section mt-3">What riders say.</h2>
+          </div>
+          <p class="flex items-center gap-3 text-[15px] text-muted"><span class="text-3xl font-semibold tracking-tight text-ink">{GOOGLE_RATING.score}</span><span><span class="block text-brand-dark" aria-hidden="true">★★★★★</span>{GOOGLE_RATING.count}+ Google reviews</span></p>
+        </div>
         <ul class="mt-14 grid gap-4 md:grid-cols-3">
           {reviews.map((r) => (
             <li class="card p-8">

@@ -1,20 +1,22 @@
 ---
 import Icon from './Icon.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
-import { business, tel, sms, BOOK_URL, BOOK_LABEL } from '../data/business';
+import { business, tel, sms, BOOK_URL } from '../data/business';
+import { langOf, ui } from '../data/i18n';
 interface Props { h1: string; lead: string; crumbs: { name: string; href: string }[] }
 const { h1, lead, crumbs } = Astro.props;
+const t = ui[langOf(Astro.url.pathname)];
 ---
 <section class="relative overflow-hidden border-b border-line">
   <div class="pointer-events-none absolute -right-40 -top-40 h-[28rem] w-[28rem] rounded-full bg-brand/20 blur-3xl" aria-hidden="true"></div>
   <div class="container-x relative pb-16 pt-10 sm:pb-20 sm:pt-14">
     <Breadcrumbs crumbs={crumbs} />
-    <h1 class="mt-8 max-w-4xl text-4xl font-semibold tracking-[-0.035em] sm:text-6xl" style="line-height:1.04">{h1}</h1>
+    <h1 class="mt-8 max-w-4xl text-4xl font-semibold tracking-[-0.035em] leading-[1.04] sm:text-6xl">{h1}</h1>
     <p class="lede mt-6 max-w-2xl">{lead}</p>
     <div class="mt-8 flex flex-wrap gap-3">
-      <a href={BOOK_URL} rel="noopener" class="btn-primary">{BOOK_LABEL}<Icon name="arrow" class="h-4 w-4" /></a>
-      <a href={tel} class="btn-ghost"><Icon name="phone" class="h-4 w-4" />Call {business.phoneDisplay}</a>
-      <a href={sms} class="btn-ghost"><Icon name="chat" class="h-4 w-4" />Text to book</a>
+      <a href={BOOK_URL} rel="noopener" class="btn-primary">{t.book}<Icon name="arrow" class="h-4 w-4" /></a>
+      <a href={tel} class="btn-ghost"><Icon name="phone" class="h-4 w-4" />{t.call} {business.phoneDisplay}</a>
+      <a href={sms} class="btn-ghost"><Icon name="chat" class="h-4 w-4" />{t.textToBook}</a>
     </div>
     <slot />
   </div>

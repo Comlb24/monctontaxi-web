@@ -11,8 +11,20 @@ export const routes = [
 
 // Add real Google reviews here (with the reviewer's name exactly as shown on Google).
 // The reviews section stays hidden until this list has entries — never invent reviews.
-export const reviews: { name: string; text: string; rating: number }[] = [];
-export const GOOGLE_REVIEWS_URL = '';
+// Copied verbatim from the Google Business Profile (Oct 2026). Skip any review that names the old
+// "Super Cab" brand — scripts/check-nap.mjs fails the build on it.
+export const reviews: { name: string; text: string; rating: number }[] = [
+  { name: 'Emily Deiter', rating: 5, text: 'What an organized and professional company! If I could give more stars, I would. I reached out to prearrange a taxi to get from the airport to Miramichi. I unfortunately had three flight delays and they handled the constant change with grace. They were there and waiting for me once I arrived.' },
+  { name: 'Pamela Riddell', rating: 5, text: 'We called from our aircraft after being diverted to Moncton and asked for a vehicle for 5 of us to share to the Saint John Airport. Our driver was fantastic! Accommodating, and a safe driver too! The fare was lower than the guy already parked at the airport from another company, as well.' },
+  { name: 'Krystle Ford', rating: 5, text: 'We were pulling a camper trailer for the first time and didnt relize how much, much more the gas goes and we ran out of gas :/ We called and they were very helpful getting our location and then they very promptly brought us gas and even put the gas in for us. They were very friendly on the phone and in person.' },
+  { name: 'Jeannine LeBlanc', rating: 5, text: 'The driver was very courteous and nice. I am a senior and had a problem with walking. He came to the door to escort me to the car. Opened the car door like a gentleman. He made sure I was comfortable. … His car was always clean and inviting.' },
+  { name: 'James Turner', rating: 5, text: 'First time I’ve used these these guys, but it won’t be the last. The service was excellent. The driver showed up on time, was very polite and helpful loading gear, was really interesting to talk to.' },
+  { name: 'Jenny C', rating: 5, text: 'If needed my family would go with them again. They were accommodating, understanding and good company. Child seat was also available.' },
+];
+// Overall rating shown on the Google Business Profile. Update occasionally; never mark it up as
+// AggregateRating schema (Google ignores self-hosted ratings for LocalBusiness).
+export const GOOGLE_RATING = { score: 4.9, count: 135 };
+export const GOOGLE_REVIEWS_URL = 'https://share.google/LFdKrL89FjvW5z6s1';
 
 export const homeFaqs: Faq[] = [
   { q: 'Is Taxi Moncton open 24/7?', a: 'Yes. We dispatch cabs 24 hours a day, 7 days a week, including holidays. Call or text (506) 797-0087 any time.' },

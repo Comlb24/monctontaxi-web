@@ -1,8 +1,10 @@
 ---
 import Icon from './Icon.astro';
-import { tel, BOOK_URL, BOOK_LABEL } from '../data/business';
+import { tel, BOOK_URL } from '../data/business';
+import { langOf, ui } from '../data/i18n';
+const t = ui[langOf(Astro.url.pathname)];
 ---
 <div class="fixed inset-x-3 bottom-3 z-40 grid grid-cols-2 gap-2 rounded-full border border-line bg-white/90 p-1.5 shadow-xl shadow-black/10 backdrop-blur-xl md:hidden">
-  <a href={BOOK_URL} rel="noopener" class="flex items-center justify-center gap-2 rounded-full bg-ink py-3 text-[15px] font-medium text-white"><Icon name="route" class="h-4 w-4" />{BOOK_LABEL}</a>
-  <a href={tel} class="flex items-center justify-center gap-2 rounded-full py-3 text-[15px] font-medium text-ink"><Icon name="phone" class="h-4 w-4" />Call now</a>
+  <a href={BOOK_URL} rel="noopener" class="flex items-center justify-center gap-2 rounded-full bg-ink py-3 text-[15px] font-medium text-white"><Icon name="route" class="h-4 w-4" />{t.book}</a>
+  <a href={tel} class="flex items-center justify-center gap-2 rounded-full py-3 text-[15px] font-medium text-ink"><Icon name="phone" class="h-4 w-4" />{t.callNow}</a>
 </div>

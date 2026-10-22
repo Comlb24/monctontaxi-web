@@ -1,18 +1,23 @@
 ---
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
-import { business, tel, BOOK_URL, BOOK_LABEL } from '../data/business';
+import { business, tel, BOOK_URL } from '../data/business';
 import { mainNav } from '../data/nav';
+import { alternateOf, frNav, langOf, ui } from '../data/i18n';
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+const lang = langOf(current);
+const t = ui[lang];
+const nav = lang === 'fr' ? frNav : mainNav;
+const alternate = alternateOf(current);
 ---
 <header class="sticky top-0 z-40 border-b border-line/70 bg-white/80 backdrop-blur-xl">
   <div class="container-x flex h-16 items-center justify-between gap-6">
-    <a href="/" class="flex items-center gap-2.5" aria-label={`${business.name} home`}>
+    <a href={lang === 'fr' ? '/fr' : '/'} class="flex items-center gap-2.5" aria-label={`${business.name} ${t.home}`}>
       <Logo />
     </a>
     <nav aria-label="Main" class="hidden xl:block">
       <ul class="flex items-center gap-1 text-[14px]">
-        {mainNav.map((l) => (
+        {nav.map((l) => (
           <li>
             <a href={l.href} aria-current={current === l.href ? 'page' : undefined}
               class:list={['whitespace-nowrap rounded-full px-3 py-1.5 transition-colors', current === l.href ? 'bg-canvas text-ink' : 'text-muted hover:text-ink']}>{l.label}</a>
@@ -21,14 +26,15 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
       </ul>
     </nav>
     <div class="flex items-center gap-2">
+      {alternate && <a href={alternate.href} hreflang={alternate.lang === 'fr' ? 'fr-CA' : 'en-CA'} lang={alternate.lang} class="whitespace-nowrap rounded-full px-2 py-1.5 text-sm font-medium text-muted hover:text-ink"><span class="sm:hidden">{alternate.lang.toUpperCase()}</span><span class="hidden sm:inline">{t.switchLabel}</span></a>}
       <a href={tel} class="hidden items-center gap-1.5 whitespace-nowrap px-2 text-sm font-medium text-muted hover:text-ink lg:inline-flex"><Icon name="phone" class="h-4 w-4" />{business.phoneDisplay}</a>
-      <a href={BOOK_URL} rel="noopener" class="btn-primary hidden whitespace-nowrap !px-4 !py-2 !text-sm sm:inline-flex">{BOOK_LABEL}<Icon name="arrow" class="h-4 w-4" /></a>
+      <a href={BOOK_URL} rel="noopener" class="btn-primary hidden whitespace-nowrap !px-4 !py-2 !text-sm sm:inline-flex">{t.book}<Icon name="arrow" class="h-4 w-4" /></a>
       <details class="group relative xl:hidden">
-        <summary class="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full border border-line" aria-label="Open menu"><Icon name="menu" class="h-5 w-5" /></summary>
+        <summary class="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full border border-line" aria-label={t.openMenu}><Icon name="menu" class="h-5 w-5" /></summary>
         <nav aria-label="Mobile" class="absolute right-0 mt-3 w-72 rounded-3xl border border-line bg-white p-2 shadow-2xl shadow-black/10">
-          {mainNav.map((l) => <a href={l.href} class="block rounded-2xl px-4 py-3 text-[15px] font-medium hover:bg-canvas">{l.label}</a>)}
-          <a href={BOOK_URL} rel="noopener" class="btn-accent mt-2 w-full">{BOOK_LABEL}</a>
-          <a href={tel} class="btn-ghost mt-2 w-full"><Icon name="phone" class="h-4 w-4" />Call {business.phoneDisplay}</a>
+          {nav.map((l) => <a href={l.href} class="block rounded-2xl px-4 py-3 text-[15px] font-medium hover:bg-canvas">{l.label}</a>)}
+          <a href={BOOK_URL} rel="noopener" class="btn-accent mt-2 w-full">{t.book}</a>
+          <a href={tel} class="btn-ghost mt-2 w-full"><Icon name="phone" class="h-4 w-4" />{t.call} {business.phoneDisplay}</a>
         </nav>
       </details>
     </div>

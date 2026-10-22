@@ -53,12 +53,14 @@ export const breadcrumbSchema = (crumbs: { name: string; href: string }[]) => ({
   itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: `${SITE_URL}${c.href === '/' ? '' : c.href}` })),
 });
 
-export const serviceSchema = (name: string, description: string, path: string) => ({
+export const serviceSchema = (name: string, description: string, path: string, city = 'Moncton', inLanguage = 'en-CA') => ({
   '@context': 'https://schema.org',
   '@type': 'Service',
+  serviceType: 'Taxi service',
   name,
   description,
   url: `${SITE_URL}${path}`,
+  inLanguage,
   provider: { '@id': BUSINESS_ID },
-  areaServed: { '@type': 'City', name: 'Moncton' },
+  areaServed: { '@type': 'City', name: city },
 });

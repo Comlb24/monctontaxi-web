@@ -1,0 +1,64 @@
+---
+// French pages (/fr/taxi-aeroport-moncton, /fr/taxi-dieppe, …) from src/data/fr.ts.
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { frPages, type FrPage } from '../../data/fr';
+import { business, BOOK_URL } from '../../data/business';
+import { ui } from '../../data/i18n';
+import { breadcrumbSchema, faqSchema, serviceSchema } from '../../data/schema';
+
+export function getStaticPaths() {
+  return frPages.map((p) => ({ params: { slug: p.slug }, props: { page: p } }));
+}
+
+const { page } = Astro.props as { page: FrPage };
+const t = ui.fr;
+const path = `/fr/${page.slug}`;
+const crumbs = [{ name: 'Accueil', href: '/fr' }, { name: page.name, href: path }];
+const schema = [breadcrumbSchema(crumbs), faqSchema(page.faqs), serviceSchema(page.h1, page.description, path, page.city ?? 'Moncton', 'fr-CA')];
+const others = frPages.filter((p) => p.slug !== page.slug);
+---
+<Base title={page.title} description={page.description} schema={schema}>
+  <PageHero h1={page.h1} lead={page.lead} crumbs={crumbs}>
+    {page.badge && <p class="mt-6 inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-1.5 text-[13px] font-medium text-muted"><Icon name="pin" class="h-5 w-5" />{page.badge}</p>}
+  </PageHero>
+
+  <section class="py-16 sm:py-20">
+    <div class="container-x grid gap-14 lg:grid-cols-[1.8fr_1fr]">
+      <article class="prose-x">
+        {page.sections.map((s) => (
+          <Fragment>
+            <h2>{s.heading}</h2>
+            <p>{s.body}</p>
+            {s.bullets && <ul>{s.bullets.map((b) => <li>{b}</li>)}</ul>}
+          </Fragment>
+        ))}
+        <p><a href={BOOK_URL} rel="noopener">Obtenez votre tarif instantané et réservez en ligne →</a></p>
+      </article>
+      <aside class="space-y-4 lg:sticky lg:top-24 lg:self-start">
+        <div class="relative overflow-hidden rounded-[2rem] bg-ink p-7 text-white">
+          <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-brand/30 blur-2xl" aria-hidden="true"></div>
+          <p class="relative text-[13px] font-medium text-white/60">Ouvert 24 h sur 24, 7 jours sur 7</p>
+          <p class="relative mt-1 text-xl font-semibold tracking-tight">Réservez votre course</p>
+          <p class="relative mt-1 text-[14px] text-white/60">Voyez votre prix instantanément, puis réservez.</p>
+          <a href={BOOK_URL} rel="noopener" class="btn-accent relative mt-6 w-full">{t.book}<Icon name="arrow" class="h-4 w-4" /></a>
+          <a href={`tel:${business.phoneE164}`} class="btn-outline relative mt-2 w-full"><Icon name="phone" class="h-4 w-4" />{business.phoneDisplay}</a>
+          <a href={business.whatsapp} class="btn-outline relative mt-2 w-full" rel="noopener">WhatsApp</a>
+        </div>
+        <div class="rounded-[2rem] border border-line p-7">
+          <p class="text-[13px] font-semibold uppercase tracking-[0.14em]">Aussi en français</p>
+          <ul class="mt-4 space-y-2.5 text-[15px]">
+            <li><a href="/fr" class="text-muted hover:text-ink">Taxi Moncton →</a></li>
+            {others.map((p) => <li><a href={`/fr/${p.slug}`} class="text-muted hover:text-ink">{p.name} →</a></li>)}
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <Faq faqs={page.faqs} />
+  <CtaBand />
+</Base>

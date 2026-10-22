@@ -6,6 +6,7 @@ import Footer from '../components/Footer.astro';
 import MobileCallBar from '../components/MobileCallBar.astro';
 import { SITE_URL, business } from '../data/business';
 import { businessSchema } from '../data/schema';
+import { alternateOf, langOf } from '../data/i18n';
 
 interface Props {
   title: string;
@@ -18,23 +19,36 @@ const { title, description, noindex = false, schema = [], ogImage = '/og-image.p
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const canonical = `${SITE_URL}${path === '/' ? '/' : path}`;
 const jsonLd = [businessSchema, ...schema];
+const lang = langOf(path);
+const alternate = alternateOf(path);
+const url = (p: string) => `${SITE_URL}${p === '/' ? '/' : p}`;
+const enHref = lang === 'en' ? path : alternate?.href;
+const frHref = lang === 'fr' ? path : alternate?.href;
 ---
 <!doctype html>
-<html lang="en-CA">
+<html lang={lang === 'fr' ? 'fr-CA' : 'en-CA'}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {path !== '/404' && <link rel="canonical" href={canonical} />}
     {noindex && <meta name="robots" content="noindex,follow" />}
+    {alternate && !noindex && (
+      <Fragment>
+        <link rel="alternate" hreflang="en-CA" href={url(enHref!)} />
+        <link rel="alternate" hreflang="fr-CA" href={url(frHref!)} />
+        <link rel="alternate" hreflang="x-default" href={url(enHref!)} />
+      </Fragment>
+    )}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="geo.region" content="CA-NB" />
     <meta name="geo.placename" content="Moncton" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={business.name} />
-    <meta property="og:locale" content="en_CA" />
+    <meta property="og:locale" content={lang === 'fr' ? 'fr_CA' : 'en_CA'} />
+    {alternate && <meta property="og:locale:alternate" content={lang === 'fr' ? 'en_CA' : 'fr_CA'} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -47,7 +61,7 @@ const jsonLd = [businessSchema, ...schema];
     {jsonLd.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
   </head>
   <body class="flex min-h-screen flex-col pb-20 md:pb-0">
-    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-white focus:p-2">Skip to content</a>
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-white focus:p-2">{lang === 'fr' ? 'Aller au contenu' : 'Skip to content'}</a>
     <Header />
     <main id="main" class="flex-1"><slot /></main>
     <Footer />

@@ -1,0 +1,85 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { business, tel, sms, addressOneLine, BOOK_URL } from '../../data/business';
+import { frPages, frHomeFaqs } from '../../data/fr';
+import { GOOGLE_RATING, GOOGLE_REVIEWS_URL } from '../../data/home';
+import { ui } from '../../data/i18n';
+import { websiteSchema, faqSchema } from '../../data/schema';
+
+const t = ui.fr;
+const title = 'Taxi Moncton | Taxi 24 h/24 à Moncton, Dieppe et aéroport';
+const description = 'Taxi Moncton : taxis locaux 24 h/24, trajets vers l’aéroport de Moncton (YQM) et longue distance vers Halifax, Saint John et l’Î.-P.-É. Réservez en ligne ou au (506) 797-0087.';
+
+const services = [
+  { icon: 'car', name: 'Taxi local', text: 'Trajets rapides 24 h/24 partout à Moncton, Dieppe et Riverview.', href: BOOK_URL },
+  ...frPages.map((p) => ({ icon: p.city ? 'pin' : p.slug.includes('aeroport') ? 'plane' : 'route', name: p.name, text: p.lead.split('. ')[0] + '.', href: `/fr/${p.slug}` })),
+];
+const whyUs = [
+  { icon: 'clock', title: 'En service 24 h/24', text: 'Jour, nuit, fins de semaine et jours fériés : la répartition répond toujours.' },
+  { icon: 'pin', title: 'Chauffeurs d’ici', text: 'Nos chauffeurs vivent ici et connaissent chaque rue de Moncton, Dieppe et Riverview.' },
+  { icon: 'plane', title: 'Suivi des vols', text: 'Les prises en charge à l’aéroport s’ajustent à votre heure d’arrivée réelle.' },
+  { icon: 'dollar', title: 'Prix connu d’avance', text: 'Tarif instantané en ligne pour chaque trajet, sans frais cachés.' },
+];
+---
+<Base title={title} description={description} schema={[websiteSchema, faqSchema(frHomeFaqs)]}>
+  <section class="relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(60rem_30rem_at_85%_-10%,rgba(201,164,92,0.22),transparent_60%)]" aria-hidden="true"></div>
+    <div class="container-x relative pb-20 pt-14 sm:pt-20 lg:pb-24">
+      <p class="inline-flex items-center gap-2 rounded-full border border-line bg-white/80 px-3 py-1.5 text-[13px] font-medium text-muted">
+        <span class="h-2 w-2 rounded-full bg-emerald-500"></span>Répartition ouverte · 24 h/24
+      </p>
+      <h1 class="h-display mt-6 max-w-4xl">Taxi à Moncton, à toute heure du jour.</h1>
+      <p class="lede mt-7 max-w-2xl">Trajets locaux, transferts vers l’aéroport et longue distance au Nouveau-Brunswick, en Nouvelle-Écosse et à l’Î.-P.-É. Obtenez un tarif instantané et réservez en ligne, ou appelez ou textez la répartition.</p>
+      <div class="mt-9 flex flex-wrap gap-3">
+        <a href={BOOK_URL} rel="noopener" class="btn-primary !px-7 !py-3.5">{t.book}<Icon name="arrow" class="h-4 w-4" /></a>
+        <a href={tel} class="btn-ghost !px-7 !py-3.5"><Icon name="phone" class="h-4 w-4" />{t.call} {business.phoneDisplay}</a>
+        <a href={sms} class="btn-ghost !px-7 !py-3.5"><Icon name="chat" class="h-4 w-4" />{t.textUs}</a>
+      </div>
+      <p class="mt-8 text-[14px] text-muted">
+        <a href={GOOGLE_REVIEWS_URL} rel="noopener" class="underline decoration-brand decoration-2 underline-offset-4"><span class="font-semibold text-ink">{GOOGLE_RATING.score} ★</span> · plus de {GOOGLE_RATING.count} avis Google</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section bg-canvas">
+    <div class="container-x">
+      <p class="eyebrow">Services</p>
+      <h2 class="h-section mt-3">Tous vos trajets, une seule répartition.</h2>
+      <ul class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((s) => (
+          <li>
+            <a href={s.href} rel={s.href.startsWith('http') ? 'noopener' : undefined} class="group flex h-full flex-col rounded-3xl border border-line bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_rgba(11,15,25,0.2)]">
+              <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-canvas"><Icon name={s.icon} class="h-5 w-5" /></span>
+              <h3 class="mt-8 text-lg font-semibold tracking-tight">{s.name}</h3>
+              <p class="mt-2 flex-1 text-[15px] leading-relaxed text-muted">{s.text}</p>
+              <span class="mt-6 inline-flex items-center gap-1.5 text-[14px] font-medium">En savoir plus <Icon name="arrow" class="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-x">
+      <p class="eyebrow">Pourquoi nous</p>
+      <h2 class="h-section mt-3">Pourquoi Moncton roule avec nous.</h2>
+      <ul class="mt-14 grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+        {whyUs.map((w) => (
+          <li class="bg-white p-8">
+            <Icon name={w.icon} class="h-6 w-6" />
+            <h3 class="mt-4 text-lg font-semibold tracking-tight">{w.title}</h3>
+            <p class="mt-2 text-[15px] leading-relaxed text-muted">{w.text}</p>
+          </li>
+        ))}
+      </ul>
+      <p class="lede mt-12 max-w-2xl">Basés au centre-ville, au {addressOneLine}, nous desservons tout le Grand Moncton et roulons partout dans les Maritimes : berlines, VUS et fourgonnettes avec chauffeurs professionnels.</p>
+    </div>
+  </section>
+
+  <Faq faqs={frHomeFaqs} heading="Questions sur le taxi à Moncton" />
+  <CtaBand />
+</Base>

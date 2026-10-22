@@ -1,14 +1,16 @@
 ---
 import type { Faq } from '../data/services';
+import { langOf, ui } from '../data/i18n';
 interface Props { faqs: Faq[]; heading?: string }
-const { faqs, heading = 'Frequently asked questions' } = Astro.props;
+const t = ui[langOf(Astro.url.pathname)];
+const { faqs, heading = t.faqHeading } = Astro.props;
 ---
 <section class="section">
   <div class="container-x grid gap-12 lg:grid-cols-[1fr_1.6fr]">
     <div>
-      <p class="eyebrow">FAQ</p>
+      <p class="eyebrow">{t.faqEyebrow}</p>
       <h2 class="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">{heading}</h2>
-      <p class="mt-4 text-muted">Can’t find your answer? Call or text dispatch any time.</p>
+      <p class="mt-4 text-muted">{t.faqHelp}</p>
     </div>
     <div class="divide-y divide-line border-y border-line">
       {faqs.map((f) => (

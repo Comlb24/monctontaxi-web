@@ -1,8 +1,10 @@
 ---
 import Icon from './Icon.astro';
-import { business, tel, sms, BOOK_URL, BOOK_LABEL } from '../data/business';
+import { business, tel, sms, BOOK_URL } from '../data/business';
+import { langOf, ui } from '../data/i18n';
+const t = ui[langOf(Astro.url.pathname)];
 interface Props { heading?: string; text?: string }
-const { heading = 'Need a ride? We’re on the road 24/7.', text = 'See your fare instantly and book online in seconds — or call or text dispatch any time.' } = Astro.props;
+const { heading = t.ctaHeading, text = t.ctaText } = Astro.props;
 ---
 <section class="py-16 sm:py-24">
   <div class="container-x">
@@ -11,9 +13,9 @@ const { heading = 'Need a ride? We’re on the road 24/7.', text = 'See your far
       <h2 class="relative mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">{heading}</h2>
       <p class="relative mx-auto mt-4 max-w-xl text-lg text-white/60">{text}</p>
       <div class="relative mt-8 flex flex-wrap justify-center gap-3">
-        <a href={BOOK_URL} rel="noopener" class="btn-accent">{BOOK_LABEL}<Icon name="arrow" class="h-4 w-4" /></a>
-        <a href={tel} class="btn-outline"><Icon name="phone" class="h-4 w-4" />Call {business.phoneDisplay}</a>
-        <a href={sms} class="btn-outline"><Icon name="chat" class="h-4 w-4" />Text us</a>
+        <a href={BOOK_URL} rel="noopener" class="btn-accent">{t.book}<Icon name="arrow" class="h-4 w-4" /></a>
+        <a href={tel} class="btn-outline"><Icon name="phone" class="h-4 w-4" />{t.call} {business.phoneDisplay}</a>
+        <a href={sms} class="btn-outline"><Icon name="chat" class="h-4 w-4" />{t.textUs}</a>
       </div>
     </div>
   </div>

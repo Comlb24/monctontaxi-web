@@ -32,15 +32,12 @@ if (props.kind === 'service') {
   ({ title, description, h1 } = a);
   lead = a.intro;
   crumbs = [{ name: 'Home', href: '/' }, { name: `Taxi ${a.city}`, href: path }];
-  faqs = [
-    { q: `Do you pick up in ${a.city} 24/7?`, a: `Yes. Call or text ${business.phoneDisplay} any time, day or night, for a pickup anywhere in ${a.city}.` },
-    { q: `Can I get a taxi from ${a.city} to Moncton airport?`, a: `Yes. We run ${a.city} to Greater Moncton Roméo LeBlanc International Airport (YQM) trips around the clock. Book ahead with your flight time.` },
-    { q: `How much is a taxi from ${a.city}?`, a: `Fares depend on your pickup and drop-off addresses. Use our online fare calculator for an instant quote or call us for a price.` },
-  ];
+  faqs = a.faqs;
 }
 
 const schema: object[] = [breadcrumbSchema(crumbs), faqSchema(faqs)];
 if (props.kind === 'service') schema.push(serviceSchema(props.service.name, description, path));
+else schema.push(serviceSchema(`Taxi service in ${props.area.city}`, description, path, props.area.city));
 
 const related = props.kind === 'service' ? props.service.related.map(getService) : services.slice(0, 3);
 const otherAreas = areas.filter((a) => props.kind !== 'area' || a.slug !== props.area.slug);
@@ -65,7 +62,14 @@ const otherAreas = areas.filter((a) => props.kind !== 'area' || a.slug !== props
           <Fragment>
             <h2>Why {props.area.city} riders choose {business.name}</h2>
             <ul>{props.area.highlights.map((h) => <li>{h}</li>)}</ul>
-            <h2>Popular pickups and drop-offs</h2>
+            {props.area.sections.map((s) => (
+              <Fragment>
+                <h2>{s.heading}</h2>
+                <p>{s.body}</p>
+                {s.bullets && <ul>{s.bullets.map((b) => <li>{b}</li>)}</ul>}
+              </Fragment>
+            ))}
+            <h2>Popular pickups and drop-offs in {props.area.city}</h2>
             <ul>{props.area.landmarks.map((l) => <li>{l}</li>)}</ul>
             <h2>Services available in {props.area.city}</h2>
             <p>Every service we offer in Moncton is available in {props.area.city}: local rides, <a href="/moncton-airport-taxi">airport transfers</a>, <a href="/long-distance-taxi">long-distance trips</a>, <a href="/package-delivery">package delivery</a> and <a href="/chauffeur-service">event transportation</a>.</p>
