@@ -1,6 +1,6 @@
 import type { Faq } from './services';
 
-// Rates used by the online fare calculator (farecalculator.vercel.app, Oct 2026):
+// Rates used by the online fare calculator (book.monctontaxi.com, Oct 2026):
 // fare = max(minimum, base + perKm × driving km); a return trip is twice the one-way fare.
 // If the calculator's rates change, update them here (and the dollar amounts written into the route
 // titles, descriptions and FAQs below).

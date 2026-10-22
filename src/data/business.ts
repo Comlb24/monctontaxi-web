@@ -2,7 +2,7 @@
 // never hard-code the name, address, phone or email anywhere else.
 
 export const SITE_URL = 'https://www.monctontaxi.com';
-export const FARE_CALCULATOR_URL = 'https://farecalculator.vercel.app';
+export const FARE_CALCULATOR_URL = 'https://book.monctontaxi.com';
 // Primary booking action across the site: the fare calculator doubles as the booking form.
 export const BOOK_URL = FARE_CALCULATOR_URL;
 export const BOOK_LABEL = 'Book now';

@@ -2,7 +2,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
-const banned = [/989-?0800/, /E1C 1B8/i, /monctontaxi\.ca/i, /white cab/i, /super cab/i];
+const banned = [/989-?0800/, /E1C 1B8/i, /farecalculator\.vercel\.app/i, /monctontaxi\.ca/i, /white cab/i, /super cab/i];
 const required = ['(506) 797-0087', '165 Main St', 'E1C 2A1', 'Taxi Moncton Long Distance', 'info@monctontaxi.com'];
 const walk = (d) => readdirSync(d).flatMap((f) => (statSync(join(d, f)).isDirectory() ? walk(join(d, f)) : [join(d, f)]));
 let failed = false;
