@@ -1,5 +1,5 @@
 ---
-// French pages (/fr/taxi-aeroport-moncton, /fr/taxi-dieppe, …) from src/data/fr.ts.
+// French pages (/fr/taxi-aeroport-moncton, /fr/taxi-dieppe, /fr/taxi-moncton-halifax, …) from src/data/fr.ts.
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import Faq from '../../components/Faq.astro';
@@ -9,6 +9,7 @@ import { frPages, type FrPage } from '../../data/fr';
 import { business, BOOK_URL } from '../../data/business';
 import { ui } from '../../data/i18n';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '../../data/schema';
+import { longDistanceRoutes, fareFor, RATES, type Toll } from '../../data/routes';
 
 export function getStaticPaths() {
   return frPages.map((p) => ({ params: { slug: p.slug }, props: { page: p } }));
@@ -17,18 +18,61 @@ export function getStaticPaths() {
 const { page } = Astro.props as { page: FrPage };
 const t = ui.fr;
 const path = `/fr/${page.slug}`;
-const crumbs = [{ name: 'Accueil', href: '/fr' }, { name: page.name, href: path }];
-const schema = [breadcrumbSchema(crumbs), faqSchema(page.faqs), serviceSchema(page.h1, page.description, path, page.city ?? 'Moncton', 'fr-CA')];
+const route = page.route ? longDistanceRoutes.find((r) => r.slug === page.route) : undefined;
+const crumbs = route
+  ? [{ name: 'Accueil', href: '/fr' }, { name: 'Longue distance', href: '/fr/taxi-longue-distance' }, { name: page.name, href: path }]
+  : [{ name: 'Accueil', href: '/fr' }, { name: page.name, href: path }];
+const service: Record<string, unknown> = serviceSchema(page.h1, page.description, path, page.city ?? 'Moncton', 'fr-CA');
+if (route) {
+  const offer = (name: string, km: number) => ({ '@type': 'Offer', name, price: fareFor(km).toFixed(2), priceCurrency: RATES.currency });
+  service.offers = [offer(`Taxi aller simple, Moncton à ${route.city}`, route.km), ...(route.airport ? [offer(`Taxi aller simple, Moncton à ${route.airport.name} (${route.airport.code})`, route.airport.km)] : [])];
+}
+const schema = [breadcrumbSchema(crumbs), faqSchema(page.faqs), service];
 const others = frPages.filter((p) => p.slug !== page.slug);
+const routePages = frPages.filter((p) => p.route);
+// French-Canadian money format: 429,62 $
+const fr$ = (n: number, cents = true) => `${cents ? n.toFixed(2).replace('.', ',') : Math.round(n)} $`;
+const tollFr = (t: Toll) => (t.per === 'way' ? `${fr$(t.amount, false)} par direction` : `${fr$(t.amount, false)} par trajet`);
+const fareRows = route
+  ? [{ to: `${route.city} (${route.province === 'PEI' ? 'Î.-P.-É.' : route.province === 'NS' ? 'N.-É.' : 'N.-B.'})`, km: route.km }, ...(route.airport ? [{ to: `Aéroport (${route.airport.code})`, km: route.airport.km }] : [])]
+  : [];
 ---
 <Base title={page.title} description={page.description} schema={schema}>
   <PageHero h1={page.h1} lead={page.lead} crumbs={crumbs}>
     {page.badge && <p class="mt-6 inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-1.5 text-[13px] font-medium text-muted"><Icon name="pin" class="h-5 w-5" />{page.badge}</p>}
+    {route && <p class="mt-6 inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-1.5 text-[13px] font-medium text-muted"><Icon name="route" class="h-5 w-5" />{Math.round(route.km)} km · <span class="text-ink">aller simple {fr$(fareFor(route.km))}</span></p>}
   </PageHero>
 
   <section class="py-16 sm:py-20">
     <div class="container-x grid gap-14 lg:grid-cols-[1.8fr_1fr]">
-      <article class="prose-x">
+      <article class="prose-x min-w-0">
+        {route && (
+          <Fragment>
+            <h2>Tarif du taxi de Moncton à {route.city}</h2>
+            <div class="mb-5 overflow-x-auto rounded-3xl border border-line">
+              <table class="w-full min-w-[440px] text-left text-[15px]">
+                <thead class="bg-canvas text-[13px] text-muted">
+                  <tr><th class="p-4 font-medium">Du centre-ville de Moncton à</th><th class="p-4 font-medium">Distance</th><th class="p-4 font-medium">Aller simple</th><th class="p-4 font-medium">Aller-retour</th>{route.toll && <th class="p-4 font-medium">Péage (en sus)</th>}</tr>
+                </thead>
+                <tbody class="divide-y divide-line">
+                  {fareRows.map((row) => (
+                    <tr>
+                      <td class="p-4 font-medium text-ink">{row.to}</td>
+                      <td class="p-4 text-muted">{Math.round(row.km)} km</td>
+                      <td class="p-4 font-semibold text-ink">{fr$(fareFor(row.km))}</td>
+                      <td class="p-4 text-muted">{fr$(fareFor(row.km) * 2)}</td>
+                      {route.toll && <td class="p-4 text-muted">{tollFr(route.toll)}</td>}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p>Ces prix viennent de notre <a href={BOOK_URL} rel="noopener">calculateur de tarif en ligne</a> : {fr$(RATES.base)} plus {fr$(RATES.perKm)} par kilomètre de route, minimum {fr$(RATES.minimum)}. Le tarif est par véhicule, et non par personne. Votre prix exact dépend de vos adresses.</p>
+            {route.toll
+              ? <p><strong>Péage :</strong> {route.toll.per === 'way' ? `le péage routier est de ${fr$(route.toll.amount, false)} par direction (${fr$(route.toll.amount * 2, false)} pour un aller-retour)` : `le péage du pont de la Confédération est de ${fr$(route.toll.amount, false)}, facturé une seule fois par trajet, aller simple ou aller-retour`}. Il est payé par le client et n’est pas inclus dans les tarifs ci-dessus.</p>
+              : <p>Il n’y a aucun péage sur ce trajet.</p>}
+          </Fragment>
+        )}
         {page.sections.map((s) => (
           <Fragment>
             <h2>{s.heading}</h2>
@@ -36,6 +80,12 @@ const others = frPages.filter((p) => p.slug !== page.slug);
             {s.bullets && <ul>{s.bullets.map((b) => <li>{b}</li>)}</ul>}
           </Fragment>
         ))}
+        {page.slug === 'taxi-longue-distance' && (
+          <Fragment>
+            <h2>Nos trajets longue distance</h2>
+            <ul>{routePages.map((p) => <li><a href={`/fr/${p.slug}`}>Taxi de Moncton à {p.city}</a></li>)}</ul>
+          </Fragment>
+        )}
         <p><a href={BOOK_URL} rel="noopener">Obtenez votre tarif instantané et réservez en ligne →</a></p>
       </article>
       <aside class="space-y-4 lg:sticky lg:top-24 lg:self-start">

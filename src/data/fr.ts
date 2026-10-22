@@ -12,6 +12,8 @@ export type FrPage = {
   badge?: string;
   sections: { heading: string; body: string; bullets?: string[] }[];
   faqs: Faq[];
+  // Slug of the English long-distance route (src/data/routes.ts) whose fares and toll this page shows.
+  route?: string;
 };
 
 export const frPages: FrPage[] = [
@@ -135,6 +137,132 @@ export const frPages: FrPage[] = [
     ],
   },
 ];
+
+// French long-distance route pages. Fares and tolls are read from src/data/routes.ts so they always
+// match the English pages; the dollar amounts in the FAQ text must be kept in sync by hand.
+frPages.push(
+  {
+    slug: 'taxi-moncton-halifax',
+    route: 'moncton-to-halifax-taxi',
+    name: 'Moncton – Halifax',
+    city: 'Halifax',
+    title: 'Taxi Moncton à Halifax – 430 $ aller simple | Taxi Moncton',
+    description: 'Taxi de Moncton à Halifax : 429,62 $ l’aller simple (258 km), ou 380,75 $ jusqu’à l’aéroport Stanfield (YHZ). Porte à porte, 24 h/24. (506) 797-0087.',
+    h1: 'Taxi de Moncton à Halifax',
+    lead: 'Des trajets de porte à porte depuis Moncton, Dieppe et Riverview jusqu’au centre-ville de Halifax, à Dartmouth et à l’aéroport international Stanfield de Halifax. Voyez votre tarif exact en ligne, puis réservez du même coup.',
+    sections: [
+      {
+        heading: 'Le trajet',
+        body: 'Nous prenons la Transcanadienne vers l’est en passant par Sackville et Amherst, puis l’autoroute 104 par Truro et l’autoroute 102 jusqu’à Halifax. Le trajet fait environ 258 km depuis le centre-ville de Moncton, soit environ deux heures et demie selon la météo et la circulation.',
+      },
+      {
+        heading: 'Transferts vers l’aéroport Stanfield (YHZ)',
+        body: 'L’aéroport Stanfield se trouve le long de l’autoroute 102, avant la ville : un transfert vers l’aéroport est donc plus court et moins cher qu’une course au centre-ville. Nous planifions votre départ pour que vous arriviez avec une bonne marge, et nous vous prenons aux arrivées pour le retour.',
+      },
+      {
+        heading: 'Destinations courantes à Halifax',
+        body: 'Nous conduisons les gens de la région de Moncton à Halifax pour des rendez-vous à l’hôpital, des rentrées universitaires, des croisières, des réunions d’affaires et des visites familiales.',
+        bullets: ['Centre des sciences de la santé QEII et Centre de santé IWK', 'Universités Dalhousie, Saint Mary’s et Mount Saint Vincent', 'Centre-ville de Halifax et le front de mer', 'Dartmouth et Bedford', 'Aéroport international Stanfield de Halifax (YHZ)'],
+      },
+    ],
+    faqs: [
+      { q: 'Combien coûte un taxi de Moncton à Halifax?', a: 'Notre calculateur de tarif indique 429,62 $ l’aller simple du centre-ville de Moncton au centre-ville de Halifax (environ 258 km), et 859,24 $ aller-retour. Le péage routier de 4 $ est en sus et payé par le client, par direction.' },
+      { q: 'Combien coûte un taxi de Moncton à l’aéroport de Halifax?', a: 'L’aller simple du centre-ville de Moncton à l’aéroport international Stanfield de Halifax (YHZ) coûte 380,75 $ (environ 229 km), plus le péage de 4 $.' },
+      { q: 'Combien de temps dure le trajet?', a: 'Environ deux heures et demie jusqu’au centre-ville de Halifax, un peu moins jusqu’à l’aéroport, selon la météo et la circulation.' },
+      { q: 'Le prix est-il par personne?', a: 'Non. Le tarif est pour le véhicule : les personnes qui voyagent ensemble partagent un seul prix.' },
+    ],
+  },
+  {
+    slug: 'taxi-moncton-saint-john',
+    route: 'moncton-to-saint-john-taxi',
+    name: 'Moncton – Saint John',
+    city: 'Saint John',
+    title: 'Taxi Moncton à Saint John – 262 $ | Taxi Moncton',
+    description: 'Taxi de Moncton à Saint John : 262,03 $ l’aller simple (157 km), ou 253,99 $ jusqu’à l’aéroport de Saint John (YSJ). Porte à porte, 24 h/24. (506) 797-0087.',
+    h1: 'Taxi de Moncton à Saint John',
+    lead: 'Des trajets directs du Grand Moncton jusqu’au centre-ville de Saint John, à l’hôpital régional, au port et à l’aéroport de Saint John. Voyez votre tarif exact en ligne avant de réserver.',
+    sections: [
+      {
+        heading: 'Le trajet',
+        body: 'Nous prenons la route 2 puis la route 1 par Sussex jusqu’à Saint John : environ 157 km depuis le centre-ville de Moncton, soit à peu près une heure et demie de route. Il n’y a aucun péage sur ce trajet.',
+      },
+      {
+        heading: 'Rendez-vous médicaux et allers-retours',
+        body: 'Beaucoup de nos trajets vers Saint John sont pour des rendez-vous à l’Hôpital régional de Saint John. Demandez un aller-retour avec temps d’attente : votre chauffeur peut attendre ou revenir vous chercher.',
+      },
+      {
+        heading: 'Destinations courantes à Saint John',
+        body: 'Des bureaux du centre-ville au terminal de croisières, nous desservons toute la ville.',
+        bullets: ['Hôpital régional de Saint John', 'Centre-ville de Saint John et Market Square', 'Terminal de croisières du port de Saint John', 'UNB Saint John', 'Traversier Saint John–Digby', 'Aéroport de Saint John (YSJ)'],
+      },
+    ],
+    faqs: [
+      { q: 'Combien coûte un taxi de Moncton à Saint John?', a: 'Notre calculateur de tarif indique 262,03 $ l’aller simple du centre-ville de Moncton à Saint John (environ 157 km), et 524,06 $ aller-retour, sans péage.' },
+      { q: 'Combien coûte un taxi de Moncton à l’aéroport de Saint John?', a: 'L’aller simple du centre-ville de Moncton à l’aéroport de Saint John (YSJ) coûte 253,99 $ (environ 152 km).' },
+      { q: 'Le chauffeur peut-il attendre pendant mon rendez-vous?', a: 'Oui. Réservez un aller-retour en indiquant la durée approximative. L’attente au-delà des 15 premières minutes est facturée 60 $ l’heure, au prorata, sauf entente préalable.' },
+    ],
+  },
+  {
+    slug: 'taxi-moncton-fredericton',
+    route: 'moncton-to-fredericton-taxi',
+    name: 'Moncton – Fredericton',
+    city: 'Fredericton',
+    title: 'Taxi Moncton à Fredericton – 301 $ | Taxi Moncton',
+    description: 'Taxi de Moncton à Fredericton : 301,19 $ l’aller simple (181 km). Porte à porte pour l’UNB, l’hôpital, le gouvernement et l’aéroport, 24 h/24. (506) 797-0087.',
+    h1: 'Taxi de Moncton à Fredericton',
+    lead: 'Des trajets confortables et directs du Grand Moncton jusqu’à la capitale du Nouveau-Brunswick, pour les étudiants, les rendez-vous, les affaires gouvernementales et les vols. Voyez votre tarif exact en ligne avant de réserver.',
+    sections: [
+      {
+        heading: 'Le trajet',
+        body: 'Nous prenons la Transcanadienne (route 2) vers l’ouest jusqu’à Fredericton : environ 181 km depuis le centre-ville de Moncton, soit à peu près deux heures de route. Il n’y a aucun péage sur ce trajet.',
+      },
+      {
+        heading: 'Étudiants et familles',
+        body: 'Rentrée ou retour pour les fêtes? Nous conduisons les étudiants à l’UNB Fredericton et à l’Université St. Thomas, avec de la place pour les bagages et les boîtes dans un VUS ou une fourgonnette.',
+      },
+      {
+        heading: 'Destinations courantes à Fredericton',
+        body: 'Nous desservons toute la ville, des deux côtés de la rivière.',
+        bullets: ['Université du Nouveau-Brunswick et Université St. Thomas', 'Hôpital régional Dr Everett Chalmers', 'Bureaux du gouvernement provincial au centre-ville', 'Aéroport international de Fredericton (YFC)', 'Centre-ville et Northside'],
+      },
+    ],
+    faqs: [
+      { q: 'Combien coûte un taxi de Moncton à Fredericton?', a: 'Notre calculateur de tarif indique 301,19 $ l’aller simple du centre-ville de Moncton à Fredericton (environ 181 km), et 602,38 $ aller-retour, sans péage.' },
+      { q: 'Combien de temps dure le trajet?', a: 'Environ deux heures par la Transcanadienne, selon la météo et la circulation.' },
+      { q: 'Allez-vous à l’aéroport de Fredericton?', a: 'Oui. Nous allons à l’aéroport international de Fredericton (YFC), au centre-ville et aux universités.' },
+    ],
+  },
+  {
+    slug: 'taxi-moncton-charlottetown',
+    route: 'moncton-to-charlottetown-taxi',
+    name: 'Moncton – Charlottetown',
+    city: 'Charlottetown',
+    title: 'Taxi Moncton à Charlottetown – 272 $ | Taxi Moncton',
+    description: 'Taxi de Moncton à Charlottetown (Î.-P.-É.) : 272,31 $ l’aller simple (163 km) par le pont de la Confédération, plus 20 $ de péage par trajet. (506) 797-0087.',
+    h1: 'Taxi de Moncton à Charlottetown',
+    lead: 'Des trajets de porte à porte du Grand Moncton jusqu’à Charlottetown et partout à l’Île-du-Prince-Édouard, par le pont de la Confédération. Voyez votre tarif exact en ligne avant de réserver.',
+    sections: [
+      {
+        heading: 'Le trajet',
+        body: 'Nous prenons les routes 15 et 16 jusqu’à Cap-Jourimain, traversons le pont de la Confédération (12,9 km) jusqu’à Borden-Carleton, puis suivons la Transcanadienne jusqu’à Charlottetown : environ 163 km, soit à peu près 1 h 45.',
+      },
+      {
+        heading: 'Destinations courantes à l’Î.-P.-É.',
+        body: 'Charlottetown est notre destination la plus populaire sur l’Île, et nous allons partout ailleurs à l’Î.-P.-É. sur demande.',
+        bullets: ['Centre-ville de Charlottetown et le front de mer', 'Hôpital Queen Elizabeth', 'Université de l’Île-du-Prince-Édouard (UPEI)', 'Aéroport de Charlottetown (YYG)', 'Summerside, Cavendish et autres collectivités'],
+      },
+      {
+        heading: 'Prendre l’avion à Moncton',
+        body: 'Beaucoup d’Insulaires prennent l’avion à Moncton (YQM) pour avoir plus de choix de vols. Nous faisons le trajet dans les deux sens : de Charlottetown à l’aéroport de Moncton, et des arrivées de YQM jusqu’à l’Île.',
+      },
+    ],
+    faqs: [
+      { q: 'Combien coûte un taxi de Moncton à Charlottetown?', a: 'Notre calculateur de tarif indique 272,31 $ l’aller simple du centre-ville de Moncton à Charlottetown (environ 163 km), et 544,62 $ aller-retour, plus le péage du pont de 20 $ une fois par trajet.' },
+      { q: 'Le péage du pont de la Confédération est-il inclus?', a: 'Non. Le péage est de 20 $, payé par le client, et facturé une seule fois par trajet : aller simple ou aller-retour, c’est 20 $.' },
+      { q: 'Pouvez-vous me prendre à Charlottetown pour aller à l’aéroport de Moncton?', a: 'Oui. Réservez à l’avance avec l’heure de votre vol et votre adresse. Les prises en charge hors ville doivent être payées à l’avance.' },
+    ],
+  },
+);
 
 export const frHomeFaqs: Faq[] = [
   { q: 'Taxi Moncton est-il ouvert 24 h/24?', a: 'Oui. Nous répartissons les taxis 24 heures sur 24, 7 jours sur 7, jours fériés compris. Appelez ou textez le (506) 797-0087 à toute heure.' },

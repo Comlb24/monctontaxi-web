@@ -15,7 +15,7 @@ const description = 'Taxi Moncton : taxis locaux 24 h/24, trajets vers l’aéro
 
 const services = [
   { icon: 'car', name: 'Taxi local', text: 'Trajets rapides 24 h/24 partout à Moncton, Dieppe et Riverview.', href: BOOK_URL },
-  ...frPages.map((p) => ({ icon: p.city ? 'pin' : p.slug.includes('aeroport') ? 'plane' : 'route', name: p.name, text: p.lead.split('. ')[0] + '.', href: `/fr/${p.slug}` })),
+  ...frPages.map((p) => ({ icon: p.route ? 'route' : p.city ? 'pin' : p.slug.includes('aeroport') ? 'plane' : 'route', name: p.route ? `Taxi ${p.name}` : p.name, text: p.lead.split('. ')[0] + '.', href: `/fr/${p.slug}` })),
 ];
 const whyUs = [
   { icon: 'clock', title: 'En service 24 h/24', text: 'Jour, nuit, fins de semaine et jours fériés : la répartition répond toujours.' },

@@ -43,7 +43,7 @@ const link = 'text-muted transition-colors hover:text-ink';
       <ul class="mt-4 space-y-2.5 text-[15px]">
         <li><a href={href('/')} class={link}>Moncton</a></li>
         {areas.map((a) => <li><a href={href(`/${a.slug}`)} class={link}>Taxi {a.city}</a></li>)}
-        {longDistanceRoutes.map((r) => <li><a href={`/${r.slug}`} class={link}>Moncton → {r.city}</a></li>)}
+        {longDistanceRoutes.map((r) => <li><a href={href(`/${r.slug}`)} class={link}>Moncton → {r.city}</a></li>)}
       </ul>
     </div>
     <div>

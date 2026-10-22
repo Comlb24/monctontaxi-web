@@ -10,6 +10,10 @@ export const translations: Record<string, string> = {
   '/long-distance-taxi': '/fr/taxi-longue-distance',
   '/taxi-dieppe': '/fr/taxi-dieppe',
   '/taxi-shediac': '/fr/taxi-shediac',
+  '/moncton-to-halifax-taxi': '/fr/taxi-moncton-halifax',
+  '/moncton-to-saint-john-taxi': '/fr/taxi-moncton-saint-john',
+  '/moncton-to-fredericton-taxi': '/fr/taxi-moncton-fredericton',
+  '/moncton-to-charlottetown-taxi': '/fr/taxi-moncton-charlottetown',
 };
 
 export const alternateOf = (path: string): { lang: Lang; href: string } | undefined => {
